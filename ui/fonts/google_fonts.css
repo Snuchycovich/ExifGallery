@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Great Vibes';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Great Vibes'), local('GreatVibes-Regular'), url(6q1c0ofG6NKsEhAc2eh-3Y4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Playfair Display'), local('PlayfairDisplay-Regular'), url(2NBgzUtEeyB-Xtpr9bm1Cdhy5e3cTyNKTHXrP9DO-Rc.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Playfair Display Bold'), local('PlayfairDisplay-Bold'), url(UC3ZEjagJi85gF9qFaBgIIsv7neNnoQYDmljOSnH1QE.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Playfair Display Black'), local('PlayfairDisplay-Black'), url(UC3ZEjagJi85gF9qFaBgIMGhQI7v0ryGuSQ4oDzNyds.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Playfair Display Italic'), local('PlayfairDisplay-Italic'), url(9MkijrV-dEJ0-_NWV7E6NwXiAI3F8adTt8b-_w2WoPM.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Playfair Display Bold Italic'), local('PlayfairDisplay-BoldItalic'), url(n7G4PqJvFP2Kubl0VBLDEBZeN5y77JNHCKkhVNuYRJ4.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 900;
+    src: local('Playfair Display Black Italic'), local('PlayfairDisplay-BlackItalic'), url(n7G4PqJvFP2Kubl0VBLDEOgMHfjK404vVBa5PdO9RSo.woff2) format('woff2');
+}
