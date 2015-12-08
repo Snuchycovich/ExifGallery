@@ -1,10 +1,9 @@
 $(document).ready(function(){
     $.getJSON("./images.json", function(images){
-        //var images = json.images;
         for(i = 0; i < images.length; i++){
              imageName = JSON.parse(images[i]).filename;
 
-            $.getJSON("./app/data/" + imageName+ ".json", function(imageJson){
+            $.getJSON("./data/" + imageName+ ".json", function(imageJson){
                 if(imageJson[0]){
                     var name = imageJson[0]['File'].FileName;
                     var creator = imageJson[0]['XMP'].Creator;
@@ -16,35 +15,21 @@ $(document).ready(function(){
                     var GPSLongitude = imageJson[0]['EXIF'].GPSLongitude;
                     var latitude = getGpsDecimal(GPSLatitude, RefGPSLatitude);
                     var longitude = getGpsDecimal(GPSLongitude, RefGPSLongitude);
-                    //console.log(name);
-                    //console.log(longitude);
-                    var greenIcon = L.icon({
-    iconUrl: './app/uploads/'+name,
-    //shadowUrl: 'js/leaflet/images/marker-shadow.png',
-
-    iconSize:     [45, 37], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    //iconAnchor:   [31, 32], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 40],  // the same for the shadow
-    popupAnchor:  [45, 37] // point from which the popup should open relative to the iconAnchor
-});
-                    var marker = L.marker([latitude, longitude], {icon:greenIcon}).addTo(map);
-                    /*.bindPopup('<img src="./uploads/'+name+'" alt="'+headline+'" width="50"/>')
-                     .openPopup();  */
-                    marker.on("click", function(e){
-                        lightbox('<div id="close-icone"/><img src="./app/uploads/'+name+'" alt="'+headline+'" width="464" class="imgLB"/>'
-                            +'<span class="headline">'+headline+'</span><br><span class="creator">Creator: '+creator+'</span> - <span class="rights">Rights: '+rights+'</span>');
-                       // marker.remove(map);
-                        //marker = L.marker([latitude, longitude]).addTo(map);
+        
+                    var photoIcon = L.icon({
+                        iconUrl: './uploads/'+name,
+                        iconSize:     [45, 37], // size of the icon
+                        popupAnchor:  [45, 37] // point from which the popup should open relative to the iconAnchor
                     });
-
-
-
+                    var marker = L.marker([latitude, longitude], {icon:photoIcon}).addTo(map);
+                    marker.on("click", function(e){
+                        lightbox('<div id="close-icone"/><img src="./uploads/'+name+'" alt="'+headline+'" width="464" class="imgLB"/>'
+                            +'<span class="headline">'+headline+'</span><br><span class="creator">Creator: '+creator+'</span> - <span class="rights">Rights: '+rights+'</span>');
+                    });
 
                 }
 
             });
-
 
         }
 

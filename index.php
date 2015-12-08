@@ -21,7 +21,7 @@ require_once 'config/config.php';
 
 Autoloader::register();
 
-var_dump(file_exists('src/Aen/ExifGallery/Image/uploder.php'));
+//var_dump(file_exists('src/Aen/ExifGallery/Image/uploder.php'));
 $title = '';
 $output = '';
 

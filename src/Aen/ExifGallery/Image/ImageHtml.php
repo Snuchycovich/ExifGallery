@@ -2,14 +2,16 @@
 
 namespace Aen\ExifGallery\Image;
 
-use Aen\Document\DocumentHtml;
+use Aen\Utils\RenderTemplate\RenderTemplate;
 
-class ImageHtml extends DocumentHtml
+class ImageHtml extends RenderTemplate
 {
 
-    public function __construct(Image $document)
+    protected $image = '';
+    
+    public function __construct($image)
     {
+        $this->image = $image;
         $this->setPath(__DIR__ . '/templates/');
-        parent::__construct($document);
     }
 }

@@ -3,7 +3,7 @@
 namespace Aen\ExifGallery\Image;
 
 use Aen\ExifGallery\Image\Image;
-use Aen\ExifGallery\Image\ImageBd;
+use Aen\ExifGallery\Image\ImageJson;
 use Aen\ExifGallery\Image\ImageForm;
 use Aen\ExifGallery\Image\ImageHtml;
 
@@ -19,25 +19,45 @@ class ImageController extends DocumentController
     public function gallery()
     {
         $this->title = "Liste d'image";
-        $images=json_decode(file_get_contents("images.json"),true);
-        $show = new RenderTemplate();
-        $show->render('templates/listImages.php');
-        $this->output = "images";
+        $list = ImageJson::readList();
+        $this->output = '<section class="feature-section make-page-height feature-even" id="about">
+        <div class="container vertical-align-middle">
+        <div class="row break-480px center-block">
+        <ul class="row row-masonry simple-gallery pop-gallery photo-grid">';
+        if (!empty($list)) {
+            foreach ($list as $image) {
+                $show = new ImageHtml($image);
+                $this->output .= $show->render('imageForGallery.tpl.php');
+            }
+        } else {
+            $this->output .= "Pas d'images par le moment.";
+        }
+        $this->output .= '</ul>
+                </div>
+            </div>
+        </section>';
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
-
+    /**
+     * Show image page from Json files by "nom" param
+     * @return page Image
+     */
     public function view()
     {
-        $this->title = "Image Name";
-        $this->output = "image";
+        $name = $id = $this->request->getGetParam('nom');
+        $image = ImageJson::readImage($name);
+        //var_dump($image);
+        $show = new ImageHtml($image);
+        $this->output = $show->render('image.tpl.php');
+        $this->title = $image[0]['XMP']['Title'];
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
 
     public function upload()
     {
-        $this->title = "Upload Image";
+        $this->title = "New Image";
         $this->output = file_get_contents(__DIR__.'/templates/uploadImage.php');
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
