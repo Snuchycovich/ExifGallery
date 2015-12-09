@@ -4,6 +4,7 @@ namespace Aen\ExifGallery\Image;
 
 use Aen\ExifGallery\Image\Image;
 use Aen\ExifGallery\Image\ImageJson;
+use Aen\ExifGallery\Image\ImageDownload;
 use Aen\ExifGallery\Image\ImageForm;
 use Aen\ExifGallery\Image\ImageHtml;
 
@@ -18,7 +19,7 @@ class ImageController extends DocumentController
     
     public function gallery()
     {
-        $this->title = "Liste d'image";
+        $this->title = "Image List";
         $list = ImageJson::readList();
         $this->output = '<section class="feature-section make-page-height feature-even" id="about">
         <div class="container vertical-align-middle">
@@ -45,14 +46,28 @@ class ImageController extends DocumentController
      */
     public function view()
     {
-        $name = $id = $this->request->getGetParam('nom');
+        $name = $id = $this->request->getGetParam('name');
         $image = ImageJson::readImage($name);
-        //var_dump($image);
         $show = new ImageHtml($image);
         $this->output = $show->render('image.tpl.php');
         $this->title = $image[0]['XMP']['Title'];
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
+    }
+    public function downloadImage()
+    {
+        $image = $this->request->getGetParam('name');
+        ImageDownload::download($image, IMAGE_PATH, 'image/' . pathinfo($image, PATHINFO_EXTENSION));
+    }
+    public function downloadXmp()
+    {
+        $image = $this->request->getGetParam('name');
+        $fileName = basename($image, pathinfo($image, PATHINFO_EXTENSION))."xmp";
+        ImageDownload::download($fileName, DATA_PATH.'xmp/', 'text/xml');
+        var_dump(file_exists(DATA_PATH.'xmp/'.$fileName));
+        $this->title = $fileName;
+        $this->response->setPart('title', $this->title);
+        
     }
 
     public function upload()

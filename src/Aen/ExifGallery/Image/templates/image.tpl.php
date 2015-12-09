@@ -84,13 +84,11 @@ if (isset($this->image[0])) {
                 <div class="row center-block input-group input-group-sm ">
                      <!-- FLICKR input -->
                     <div class="col-xs-12 col-md-7">
-                        <!--<form action="app/View/flickerSearch.php" method="post" enctype="multipart/form-data">-->
                         <select id="filtres" class="form-control" name="q[]" multiple="multiple"
                                 data-placeholder="Search for related images on flicker..." data-width="off"
                                 tabindex="-1">
                                 <?= $options;?>
                         </select>
-                       <!-- </form>-->
                     </div>
                     <div class="col-xs-2 col-md-2">
                         <button id="bFlicker" type="submit" class="btn btn-default"><span class="ti ti-flickr"></span></button>
@@ -98,10 +96,10 @@ if (isset($this->image[0])) {
                     <!-- End FLICKR input -->
                     <div class="col-xs-4 col-md-3">
                         <div class="btn-group" role="group">
-                            <a class="btn btn-default" href="">
+                            <a class="btn btn-default" href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>">
                                 <span class="glyphicon glyphicon-download-alt"></span>
                             </a>
-                            <a class="btn btn-default" href="">
+                            <a class="btn btn-default" href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>">
                                 <span class="ti ti-file"></span>
                             </a>
                         </div>

@@ -20,6 +20,42 @@
             overwriteInitial: true
 
         });
+        $("#filtres").select2({maximumSelectionLength: 2});
+            $('#bFlicker').click(function(){
+                //alert("click");
+                /*$("#details").append($.parseHTML('<nav class="nav-wrapper visible-xs nav-wrapper-mobile">'+
+                    '<div class="nav-wrapper-mobile-inner">'+
+                    '<div class="nav-wrapper-mobile-vertical-center">'+
+                    '</div></div></nav>'));*/
+                var keywords=$("#filtres>option:selected").map(function(){
+                    return $(this).val();
+                }).get();
+                if(keywords.length==0) {
+                    keywords = $("#filtres>option").map(function () {
+                        return $(this).val();
+                    }).get();
+                    $("#"+keywords[0]).prop('selected', true);
+                    $("#"+keywords[0]).select();
+                    keywords=[keywords[0]];
+
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: 'src/Aen/Library/Flickr/flickrSearch.php',
+                    data: {"q" : keywords},
+                    success: function(data) {
+                        console.log(data);
+                        $("#metadata").addClass("col-xs-7");
+                        $("#metadata").removeClass("col-xs-8");
+                        $("#flicker").removeClass("col-xs-2");
+                        $("#flicker").addClass("col-xs-5");
+                        $("#flicker").html(data);
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+            });
 
 
         $(".clickedimage").click(function(img){
@@ -34,7 +70,7 @@
                     $(".close").click(function(img){
                         $("#details").removeClass("open");
                     });
-                    $("#filtres").select2({maximumSelectionLength: 2});
+                    /*$("#filtres").select2({maximumSelectionLength: 2});
                     $('#bFlicker').click(function(){
                         $("#details").append($.parseHTML('<nav class="nav-wrapper visible-xs nav-wrapper-mobile">'+
                             '<div class="nav-wrapper-mobile-inner">'+
@@ -67,7 +103,7 @@
                                 alert("err");
                             }
                         });
-                    });
+                    });*/
                 }
             });
         });

@@ -12,7 +12,7 @@ class ImageUploader {
     }
 
     public function upload() {
-        print_r($_FILES["fileToUpload"]);
+        //print_r($_FILES["fileToUpload"]);
         $target_file = $this->target_dir . basename($_FILES["fileToUpload"]["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);

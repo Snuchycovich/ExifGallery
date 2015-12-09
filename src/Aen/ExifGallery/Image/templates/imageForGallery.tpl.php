@@ -1,5 +1,5 @@
 <li class="col-xs-10 col-md-8">
-  <a href="index.php?t=image&amp;a=view&amp;nom=<?= urlencode(json_decode($this->image, true)["filename"]);?>" class="color-inherit-link" >
+  <a href="index.php?t=image&amp;a=view&amp;name=<?= urlencode(json_decode($this->image, true)["filename"]);?>" class="color-inherit-link" >
     <figure class="center-block col-sm-12 clickedimage">
       <img id="<?= json_decode($this->image, true)["filename"];?>" 
       style="width:400px;height:150px" 
