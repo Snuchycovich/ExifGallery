@@ -1,162 +1,105 @@
-/* RESET CSS (partial)*/
-html, body, div, p, a, ul, li, h1, h2, h3 {
-  border: 0;
-  font: inherit;
-  margin: 0;
-  padding: 0;
-  vertical-align: baseline;
+.theme-title{
+  margin-top: 20px;
 }
-body {
-  line-height: 1;
+
+.nav > li > a:hover, .nav > li > a:focus {
+  text-decoration: none;
+  background-color: orange;
+  opacity: 0.5;
+  color: white;}
+a {
+  color: green;}
+
+.panel {
+  background-color: rgba(255,140,0, 0.2);
 }
-ul {
-  list-style: none;
+
+.photo li {
+  display: inline-block;
+  margin: 1em;
 }
-/*===========
-     FONT
-===========*/
-@font-face {
-    font-family: 'magraregular';
-    src: url('../fonts/Magra-Regular-webfont.eot');
-    src: url('../fonts/Magra-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/Magra-Regular-webfont.woff2') format('woff2'),
-         url('../fonts/Magra-Regular-webfont.woff') format('woff'),
-         url('../fonts/Magra-Regular-webfont.ttf') format('truetype'),
-         url('../fonts/Magra-Regular-webfont.svg#magraregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+
+.photo img {
+  border: 1px solid white;
+  border-radius:5% ;
+  display: block;
+  height: auto;
+  max-width: 100%;
+  height: 100px;
+  overflow: hidden;
+  width: 289px;
+
 }
-/*===========
-GLOBAL CLASES
-===========*/
-body{font-family: 'magraregular';background: #333333 url("../images/classy_fabric.png");}
-a{text-decoration: none;}
-figure{margin:0;}
-.hidden{display:none;visibitity:hidden;height: 0;}
-.error{color:red;}
-.inner{width:1200px;margin:0 auto;}
-.clearfix:after{content: "";display: block;visibility: hidden;clear:both;height: 0;line-height: 0;}
-.message{margin:10px 0;}
-.titre{font-size:1.3em;margin-bottom: 10px;}
-.titre a{color:#f15a24;}
-.btn{display:inline-block;margin:5px 0;padding:5px;color:#FFF;background:#f15a24;border-radius: 3px;}
-/*============
-GENERAL LAYOUT
-============*/
-header{padding:10px 0;background: #f15a24;}
-nav{margin-bottom: 15px;background: #000;}
-.content .inner{padding:15px;margin-bottom: 1em;box-sizing: border-box;background: #FFF;}
-/*==========
-	HEADER
-==========*/
-header .inner{display:flex;justify-content:space-between;color:#333;}
-.siteTitre{font-size: 2.5em;margin-bottom: 5px;}
-header a{color:#FFF;}
-header li{margin-bottom: 0.5em;	border-bottom: 1px solid #CCC;}
-/*==========
-	NAV
-==========*/
-.mainMenu{display:flex;margin:0;padding:0;background: #000;}
-.mainMenu .inner{width:100%;}
-.menu-item {border-bottom: 3px solid #000;}
-.menu-item:hover{background: #333;border-bottom: 3px solid #f15a24;}
-.menu-item a{display:block;padding:10px 20px;color:#FFF;}
-/*==========
-  CONTENT
-==========*/
-.mainTitre{margin-bottom: 15px;padding-bottom:5px;font-size: 2em;color:#000;border-bottom: 2px solid #000}
-.mainTitre span{color:#f15a24; font-size: 0.8em;}
-.soustitre{margin:1em 0;padding: 0.5em 0;font-size: 1.3em;}
-.content .container{display: flex; justify-content:space-between;align-items:flex-start;}
-.mainContent {width:900px;}
-/*Article*/ 
-.titreArticle{margin-bottom: 5px;padding:5px;font-size: 2.5em;color:#000;}
-.metaData{font-size: 0.9em;color:#999;}
-.chapeau{margin-bottom: 1em;text-align: justify;font-size:1.2em;font-weight: bold;color:#333;}
-.contenuArticle{text-align: justify;font-size:1.2em;}
-.contenuArticle p{margin-bottom: 1em;}
-/* Liste */
-#listHome{width:100%;}
-.liste{margin-bottom:10px;padding-bottom:5px;border-bottom: 1px solid #CCC;}
-.liste-article{margin-bottom: 10px;padding:5px;background: #FFF;}
-.liste-article .thumb{width: 100px;height: 100px;margin-right:10px;background: url('../images/article.gif')no-repeat left top;border-radius: 100%;}
-.titre-article a{font-size:1.5em;color:#f15a24;font-weight: bold;}
-.titre-article a:hover{color:#333;}
 
-.auteur{color:#999;font-size: 0.9em}
+.photo-grid figcaption {
+  border-radius:50%;
+  color: white;
+  display: table;
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 100;
+}
 
-#autresInfos{padding: 10px;background: #f15a24;}
-#autresInfos .titreBlock {margin-bottom:10px;font-size:1.3em;text-align: center}
-#autresInfos li a {display:block;margin-bottom:10px;padding:10px; color:#FFF;background:#000;border-radius: 5px;}
-#autresInfos li a:hover{background: #333;}
+.photo-grid figcaption p {
+  display: table-cell;
+  font-size: 1.2em;
+  position: relative;
+  width: 250px;
+  vertical-align: middle;
+  text-align: center;
+}
+.photo-grid li:hover figcaption {
+  opacity: 1;
+}
 
-/*==========
-   FOOTER
-==========*/
-footer{margin-top: 20px;font-size: 0.8em;text-align: right;background: #000;}
-footer .inner{padding:10px;background: #f15a24 ;box-sizing: border-box;}
-/*==========
-	MENUS
-==========*/
-.edit-article {margin-bottom:15px;padding-right:15px;}
-.edit-article a{padding:5px 10px;color:#fff;font-size: 0.9em;background: #000014;}
-.edit-article a:hover{color:#999;}
-.menuArticle .edit-article{text-align: right;}
-/*==========
-   IMAGES
-==========*/
-.images-container, .liste-images{display:flex;align-content:flex-start;flex-wrap:wrap;align-items:flex-start;/*justify-content:space-between;*/margin:15px 0;}
-.images-container figure {margin:10px;background: #000;border:1px solid #000;}
-.images-container figure img {width:100%;}
-.images-container figcaption{padding:0 5px;}
-.images-container figcaption h3 {color:#FFF;font-size: 1.1em;}
-.images-container-modif figure
-.image-titre{font-style: italic;}
-.liste-images img{margin:1px 2px;}
-#imageModif{margin-bottom: 15px;}
-.btns{display: flex;justify-content:flex-end;margin:2px;}
-.btnEdition{display: block;width:30px;height:30px;}
-.editBtn{background: url('../images/editBtn.png') no-repeat top left;}
-.supprBtn{background: url('../images/supprBtn.png') no-repeat top center;}
-/*flickr*/
-.selected{border:2px solid #f15a24;}
-.imageFlickr{margin:1px 2px;}
-.imageflickrArt{float:left;margin-right: 15px;}
-.imagesFlickr img{margin-right: 10px;}
-.thumbFlickr{width:100px; height:100px;border-radius: 100%;}
-/*==========
-   FORM
-==========*/
-input, select{padding:5px;}
-fieldset, input, textarea, .error, #cke_contenu{margin-bottom: 1em;}
-input#titre{width:98%;}
-button{padding:5px;}
-label{text-transform: uppercase;}
-/*Auth form*/
-#auth .formContainer{display: flex;align-items:flex-end;}
-#auth input{display:inline-block;padding:5px;}
-#auth input[type=submit]{margin-left:5px;color:#FFF;background: #000;border:1px solid #000;border-radius: 3px;}
+.photo-grid li:hover img {
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  transform: scale(1.05);
+  opacity: 0.25;
+}
 
-/*==========
-Syndication
-==========*/
-.syndicItem{margin-bottom: 1em;padding-bottom:10px;border-bottom: 1px solid #CCC;}
-.mainTitleSyndic{display:block;margin-bottom:15px;padding:5px;font-size:1.3em;color:#FFF;text-align:center;background: #000;}
-.infoSyndic{text-align: center;}
-.syndicItem figure{float:left;margin-right:10px;}
-.titre{font-size: 1.3em;}
-.titreSyndic a{color:#f15a24;}
-.titreSyndic a:hover{color:#333;}
-.descSyndic{margin-bottom:10px;text-align: justify;}
-.descSyndic p{margin-bottom:10px;}
-.descSyndic a {color:#f15a24;}
-/*==========
-  EVENTS
-==========*/
-.events{display: flex;justify-content:space-around;flex-wrap: wrap;}
-.event{width:28%;	margin-bottom: 15px;padding-bottom:10px;border-bottom: 1px solid #000;}
-.event .event-titre{padding:5px;text-align: center;background: #000;border-radius: 5px;}
-.event .event-titre :hover{color:#FFF;}
-.event figure{margin-bottom: 5px}
-.event .label {font-weight:bold;}
-.event .lieu{margin: 5px 0;padding:5px;font-size: 1.2em; font-weight: bold; text-align: center;background: #f15a24;}
+.photo-grid figcaption p {
+  display: table-cell;
+  font-size: 0.85em;
+  position: relative;
+  width: 250px;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.photo-grid li:hover figcaption p {
+  -moz-transform: translateY(40px);
+  -webkit-transform: translateY(40px);
+  transform: translateY(40px);
+}
+
+.photo-grid figcaption {
+  color: black;
+  display: table;
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-transition: all 300ms;
+  -moz-transition: all 300ms;
+  transition: all 300ms;
+  -webkit-transition-delay: 100ms;
+  -moz-transition-delay: 100ms;
+  transition-delay: 100ms;
+  z-index: 100;
+}
+
+#map{
+  border-radius:2%;
+  height: 600px;
+}

@@ -106,12 +106,18 @@ if (isset($this->image[0])) {
 
                     </div>
                 </div>
-            <br/>
+            <br>
             <div class="img-treatment">
                 <a href="<?= $hrefImage; ?>" target="_blank">
                     <img src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"/>
                 </a>
             </div>
+            <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
         </div>
         <!-- /.col-xs-6 -->
         <div class="col-xs-7">

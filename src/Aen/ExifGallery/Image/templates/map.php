@@ -1,6 +1,5 @@
-<section class="feature-section make-page-height feature-odd text-center" id="map-section">
-	<div class="container vertical-align-middle">
-	    <h5>Please click the image to view it in a better resolution.</h5>
+<section class="feature-section make-page-height text-center">
+	<div class="container">
 	    <div id="map"></div>
 	</div>
 </section>

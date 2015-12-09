@@ -13,7 +13,7 @@ class Router extends AbstractRouter
         if ($this->request->testGetParam('t')) {
             $controller = $this->request->getGetParam('t');
         } else {
-            $controller = 'article';
+            $controller = 'image';
         }
 
         switch($controller) {

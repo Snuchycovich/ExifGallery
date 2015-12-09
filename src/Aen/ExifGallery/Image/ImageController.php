@@ -17,11 +17,36 @@ use Aen\Utils\RenderTemplate\RenderTemplate;
 class ImageController extends DocumentController
 {
     
+    public function home()
+    {
+        $this->title = "Exiftool Gallery";
+        $list = ImageJson::readList();
+        $this->output = '<section class="feature-section">
+        <div class="container">
+        <ul class="row row-masonry simple-gallery pop-gallery">
+        <li class="grid-sizer"></li>
+        <li class="gutter-sizer"></li>';
+        if (!empty($list)) {
+            foreach ($list as $image) {
+                $show = new ImageHtml($image);
+                $this->output .= $show->render('imageForHomeGallery.tpl.php');
+            }
+        } else {
+            $this->output .= "Pas d'images par le moment.";
+        }
+        $this->output .= '</ul>
+                </div>
+            </div>
+        </section>';
+        $this->response->setPart('title', $this->title);
+        $this->response->setPart('output', $this->output);
+    }
+
     public function gallery()
     {
         $this->title = "Image List";
         $list = ImageJson::readList();
-        $this->output = '<section class="feature-section make-page-height feature-even" id="about">
+        $this->output = '<section class="feature-section make-page-height">
         <div class="container vertical-align-middle">
         <div class="row break-480px center-block">
         <ul class="row row-masonry simple-gallery pop-gallery photo-grid">';
