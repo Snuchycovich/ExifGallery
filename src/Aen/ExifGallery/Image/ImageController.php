@@ -23,7 +23,7 @@ class ImageController extends DocumentController
         $list = ImageJson::readList();
         $this->output = '<section class="feature-section">
         <div class="container">
-        <ul class="row row-masonry simple-gallery pop-gallery">
+        <ul class="row row-masonry simple-gallery photo-grid">
         <li class="grid-sizer"></li>
         <li class="gutter-sizer"></li>';
         if (!empty($list)) {
