@@ -131,6 +131,9 @@ class ImageController extends DocumentController
     public function modify()
     {
         $this->title = "Modify image";
+        $name = $id = $this->request->getGetParam('name');
+        $image = ImageJson::readImage($name);
+        $this->output = "modif";
         $this->output = "modif";
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);

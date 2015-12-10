@@ -10,11 +10,11 @@ if (isset($this->image[0]["XMP"]["CreatorWorkURL"])) {
 }
 
 if (isset($this->image[0]["XMP"]["Creator"])) {
-    if(empty($creatorUrl) || $creatorUrl == ""){
-    $creator = "By ". $this->image[0]["XMP"]["Creator"]."<br>";
-}else{
-     $creator = "<a target='_blank' href=".$creatorUrl. "> By ". $this->image[0]["XMP"]["Creator"]."</a>";
-}
+    if (empty($creatorUrl) || $creatorUrl == "") {
+        $creator = "By ". $this->image[0]["XMP"]["Creator"]."<br>";
+    } else {
+        $creator = "<a target='_blank' href=".$creatorUrl. "> By ". $this->image[0]["XMP"]["Creator"]."</a>";
+    }
 }
 
 
@@ -126,36 +126,40 @@ if (isset($this->image[0])) {
                     <img src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"/>
                 </a>
             </div>
-            <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>">
-                <span class="glyphicon glyphicon-pencil"></span>
-            </a>
-            <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>">
-                <span class="glyphicon glyphicon-trash"></span>
-            </a>
+            <div class="text-right">
+                <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>" class="btn btn-default">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>  
+            </div>
+            
+            <div class="desc">
+                <?= $description ?>
+            </div>
         </div>
         <!-- /.col-xs-6 -->
         <div class="col-xs-7">
-            <div class="the-couple-text-wrapper center-block text-center">
-                <p class="the-couple-statement">
-                    <?= $creator; ?>
-                    
-                <h2 class="the-couple-date h3"><?= $date ?></h2>
+            <div class="the-couple-text-wrapper center-block">
+                <p class="the-couple-statement text-center">
+                    <?= $creator; ?><br><span class="date-image"><?= $date ?></span>
+                </p>
+                <div id="metadata">
+                <h6 class="text-center">Images Metadatas</h6>
+                <ul class="nav nav-stacked" id="accordion1">
+                    <?= $metadata; ?>
+                </ul>
+        </div>
             </div>
-            <p>
-                    <?= $description ?>
-            </p>
-
         </div>
         <!-- /.col-xs-6 -->
     </div>
     <!--/.row -->
+    
     <div class="row">
+
         <div id="flicker" class="col-xs-2"></div>
-        <div id="metadata" class="col-xs-8 center-block">
-            <h2 class="text-center">Images Metadatas</h2>
-            <ul class="nav nav-stacked" id="accordion1">
-                <?= $metadata; ?>
-            </ul>
-        </div>
+        
     </div>
 </div>
