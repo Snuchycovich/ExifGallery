@@ -24,6 +24,8 @@ Autoloader::register();
 //var_dump(file_exists('src/Aen/Library/Flickr/flickrSearch.php'));
 $title = '';
 $output = '';
+$oGMeta = '';
+$tweetCards = '';
 
 
 try {
@@ -32,6 +34,8 @@ try {
     $router = new Router($request);
     $controller = new FrontController($router);
     $result = $controller->run($request, $response);
+    //$oGMeta = $response->getPart('oGMeta');
+    //$tweetCards = $response->getPart('tweetCards');
     $title = $response->getPart('title');
     $output = $response->getPart('output');
 } catch (\Exception $e) {
