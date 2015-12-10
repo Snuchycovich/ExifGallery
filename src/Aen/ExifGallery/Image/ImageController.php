@@ -75,7 +75,14 @@ class ImageController extends DocumentController
         $image = ImageJson::readImage($name);
         $show = new ImageHtml($image);
         $this->output = $show->render('image.tpl.php');
-        $this->title = $image[0]['XMP']['Title'];
+        if (isset($image[0]['XMP']) && isset($image[0]['XMP']['Title'])) {
+            $this->title = $image[0]['XMP']['Title'];
+        } elseif (isset($image[0]['IPTC']) && isset($image[0]['IPTC']['Headline'])) {
+            $this->title = $image[0]['IPTC']['Headline'];
+        } else {
+            $this->title = "Unknown";
+        }
+
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
@@ -88,7 +95,7 @@ class ImageController extends DocumentController
     {
         $image = $this->request->getGetParam('name');
         $fileName = basename($image, pathinfo($image, PATHINFO_EXTENSION))."xmp";
-        ImageDownload::download($fileName, DATA_PATH.'xmp/', 'text/xml');
+        ImageDownload::download($fileName, DATA_PATH.'xmp/', 'text/xmp');
         var_dump(file_exists(DATA_PATH.'xmp/'.$fileName));
         $this->title = $fileName;
         $this->response->setPart('title', $this->title);

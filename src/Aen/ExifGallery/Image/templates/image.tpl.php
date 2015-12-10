@@ -1,15 +1,28 @@
 <?php
 
 //info search
-$creator = "";
-$creatorUrl;
-if (isset($this->image[0]["XMP"]["Creator"])) {
-    $creator = "By ". $this->image[0]["XMP"]["Creator"]."<br>";
-}
+$creator = "Unknown creator";
+$creatorUrl = "";
+$description = "";
 
 if (isset($this->image[0]["XMP"]["CreatorWorkURL"])) {
-    $creatorUrl = '( <a target="_blank" href="'.$this->image[0]["XMP"]["CreatorWorkURL"].'">
-        <font size="2">'.$this->image[0]["XMP"]["CreatorWorkURL"].'</font></a>)';
+    $creatorUrl = $this->image[0]["XMP"]["CreatorWorkURL"];
+}
+
+if (isset($this->image[0]["XMP"]["Creator"])) {
+    if(empty($creatorUrl) || $creatorUrl == ""){
+    $creator = "By ". $this->image[0]["XMP"]["Creator"]."<br>";
+}else{
+     $creator = "<a target='_blank' href=".$creatorUrl. "> By ". $this->image[0]["XMP"]["Creator"]."</a>";
+}
+}
+
+
+
+if (isset($this->image[0]["IPTC"]["Caption-Abstract"])) {
+    $description = '<blockquote><font size="2">'.$this->image[0]["IPTC"]["Caption-Abstract"].'</font></blockquote>';
+} elseif (isset($this->image[0]["XMP"]["Description"])) {
+    $description = '<blockquote><font size="2">'.$this->image[0]["XMP"]["Description"].'</font></blockquote>';
 }
 
 
@@ -53,19 +66,17 @@ if (isset($this->image[0])) {
             case 'EXIF':
             case 'XMP':
             case 'IPTC':
-                    $metadata .= '<li class="panel">
+                $metadata .= '<li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#'.$key.'">
                 <b><font size="4">'.$key.'</font></b></a>
                 <ul id="'.$key.'" class="collapse">';
 
                 foreach ($values as $k => $value) {
-                    if ($k !== "FileName" && $k !== "Directory") {
                         if (is_array($value)) {
                             $value = implode(", ", $value);
                         }
                         $metadata .= "<li><b>" . $k . '</b> : ' . strval($value) . "</li>";
-                            
-                    }
+                       
                 }
                 $metadata .='</ul>
                         </li>';
@@ -73,6 +84,9 @@ if (isset($this->image[0])) {
             default:
                 break;
         }
+    }
+    if(empty($metadata) || $metadata==""){
+        $metadata = '<p class="text-center">No metadatas stored in this image</p>';
     }
 }
 ?>
@@ -124,15 +138,11 @@ if (isset($this->image[0])) {
             <div class="the-couple-text-wrapper center-block text-center">
                 <p class="the-couple-statement">
                     <?= $creator; ?>
-                    <?= $creatorUrl; ?>
+                    
                 <h2 class="the-couple-date h3"><?= $date ?></h2>
             </div>
             <p>
-            <blockquote>
-                <font size="2">
-                    <?= $this->image[0]["IPTC"]["Caption-Abstract"]?>
-                </font>
-            </blockquote>
+                    <?= $description ?>
             </p>
 
         </div>
@@ -149,4 +159,3 @@ if (isset($this->image[0])) {
         </div>
     </div>
 </div>
-<a href="#" class="go-to-top scroll-panel-top"><span class="ti ti-arrow-up"></span></a>

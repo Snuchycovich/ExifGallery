@@ -41,7 +41,10 @@ if (isset($uploaded_file)) {
 
     appendToFile("../../../../images.json", json_encode($img));
     //generer le fichier xmp de l'image
+    //$model = new FileModel(pathinfo(basename($uploaded_file))['filename'] . ".xmp", "../../../../data/xmp/");
     $exiftool->getXMPdata($uploaded_file);
+    //$model->saveToFile($xmpMetas);
+    //DATA_PATH.'xmp/' . pathinfo(basename($image))['filename'] . ".xmp"
 }
 
 function appendToFile($file, $data = array())

@@ -99,7 +99,6 @@ a {
   z-index: 100;
 }
 
-#map{
-  border-radius:2%;
-  height: 600px;
-}
+#accordion1 li.panel {
+        margin-bottom: 0px;
+};

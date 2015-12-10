@@ -37,7 +37,7 @@ $(document).ready(function(){
 
         });
     
-    var map = L.map('map').setView([35, -100], 4);
+    var map = L.map('map').setView([30, -5], 2);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic251Y2h5Y292aWNoIiwiYSI6ImNpZ3pxN2p2ZTAwaXR1eG03OGt4dGw1eXMifQ.yQa6IvhYNfBOBwLdkPAHng', {
        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
