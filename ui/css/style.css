@@ -48,7 +48,7 @@ a {
   display: table-cell;
   font-size: 1.2em;
   position: relative;
-  width: 250px;
+  width: 100%;
   vertical-align: middle;
   text-align: center;
 }
@@ -57,22 +57,18 @@ a {
 }
 
 .photo-grid li:hover img {
-  -webkit-transform: scale(1.05);
-  -moz-transform: scale(1.05);
-  transform: scale(1.05);
   opacity: 0.25;
 }
 
 .photo-grid figcaption p {
   display: table-cell;
   font-size: 0.85em;
-  position: relative;
-  width: 250px;
+  margin: 0 auto;
+  width: 350px;
+  padding: 10px;
   -webkit-transition: all 300ms ease-out;
   -moz-transition: all 300ms ease-out;
   transition: all 300ms ease-out;
-  vertical-align: middle;
-  text-align: center;
 }
 
 .photo-grid li:hover figcaption p {

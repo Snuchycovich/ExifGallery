@@ -3,8 +3,8 @@
     	<figure class="center-block col-sm-12 clickedimage">
         <img src="<?= json_decode($this->image, true)['url'];?>" 
         alt="<?= json_decode($this->image, true)["filename"];?>"/>
-        <figcaption class='creator'>
-        	<p><?= json_decode($this->image, true)["name"];?><br>
+        <figcaption>
+        	<p><?= json_decode($this->image, true)["name"];?><br/>
         	By <?= json_decode($this->image, true)["creator"];?>
         </p>
         </figcaption>
