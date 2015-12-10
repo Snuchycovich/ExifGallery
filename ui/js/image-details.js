@@ -40,10 +40,10 @@
                     data: {"q" : keywords},
                     success: function(data) {
                         console.log(data);
-                        $("#metadata").addClass("col-xs-6");
+                        /*$("#metadata").addClass("col-xs-6");
                         $("#metadata").removeClass("col-xs-8");
                         $("#flicker").removeClass("col-xs-2");
-                        $("#flicker").addClass("col-xs-6");
+                        $("#flicker").addClass("col-xs-6");*/
                         $("#flicker").html(data);
                     },
                     error:function(err){

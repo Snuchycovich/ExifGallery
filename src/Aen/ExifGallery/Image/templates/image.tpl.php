@@ -17,8 +17,6 @@ if (isset($this->image[0]["XMP"]["Creator"])) {
     }
 }
 
-
-
 if (isset($this->image[0]["IPTC"]["Caption-Abstract"])) {
     $description = '<blockquote><font size="2">'.$this->image[0]["IPTC"]["Caption-Abstract"].'</font></blockquote>';
 } elseif (isset($this->image[0]["XMP"]["Description"])) {
@@ -56,6 +54,8 @@ $options = "";
 foreach ($keywords as $keyword) {
     $options .= '<option id="'.$keyword.'" value="'.$keyword.'">'.$keyword.'</option>';
 }
+//url
+$name = basename($this->image[0]['File']['FileName'], '.'.pathinfo($this->image[0]['File']['FileName'], PATHINFO_EXTENSION));
 
 // METADATA ACCORDION
 $metadata = "";
@@ -110,10 +110,14 @@ if (isset($this->image[0])) {
                     <!-- End FLICKR input -->
                     <div class="col-xs-4 col-md-3">
                         <div class="btn-group" role="group">
-                            <a class="btn btn-default" href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>">
+                            <a class="btn btn-default" 
+                            href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
+                            title="Download Image">
                                 <span class="glyphicon glyphicon-download-alt"></span>
                             </a>
-                            <a class="btn btn-default" href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>">
+                            <a class="btn btn-default" 
+                            href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
+                            title="Download XMP File">
                                 <span class="ti ti-file"></span>
                             </a>
                         </div>
@@ -127,10 +131,10 @@ if (isset($this->image[0])) {
                 </a>
             </div>
             <div class="text-right">
-                <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>" class="btn btn-default">
+                <a href="index.php?t=image&amp;a=modify&amp;name=<?= $name; ?>" class="btn btn-default" title="Modify Metadatas">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <a href="index.php?t=image&amp;a=modify&amp;name="name="<?= $this->image[0]['File']['FileName'] ?>" class="btn btn-default">
+                <a href="index.php?t=image&amp;a=delete&amp;name=<?= $name; ?>" class="btn btn-default" title="Delete Image">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>  
             </div>
@@ -159,7 +163,7 @@ if (isset($this->image[0])) {
     
     <div class="row">
 
-        <div id="flicker" class="col-xs-2"></div>
+        <div id="flicker" class="col-xs-5"></div>
         
     </div>
 </div>

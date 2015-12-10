@@ -2,18 +2,28 @@
   margin-top: 20px;
 }
 
-.nav > li > a:hover, .nav > li > a:focus {
-  text-decoration: none;
-  background-color: orange;
-  opacity: 0.5;
-  color: white;}
-a {
-  color: green;}
 
-.panel {
-  background-color: rgba(255,140,0, 0.2);
+/*==== ACCORDION PANEL ====*/
+li.panel {
+  border:1px solid #000;
+
 }
 
+#accordion1 li.panel {
+        margin-bottom: 0px;
+};
+#accordion1 .nav > li > a{
+  padding:5px;
+}
+
+#accordion1 .nav > li > a:hover, .nav > li > a:focus {
+  text-decoration: none;
+  background-color: #FFFFFF;
+  opacity: 0.5;
+  color: black;}
+
+
+/*=====  Galleries =======*/
 .photo li {
   display: inline-block;
   margin: 1em;
@@ -95,6 +105,3 @@ a {
   z-index: 100;
 }
 
-#accordion1 li.panel {
-        margin-bottom: 0px;
-};

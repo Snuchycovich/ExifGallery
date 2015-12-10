@@ -16,25 +16,14 @@ $uploaded_file=$uploader->upload();
 if (isset($uploaded_file)) {
     $exiftool = new ExifTool("");
     $metadatas=$exiftool->getMetadata($uploaded_file);
-    /*$data = array(array("SourceFile" => "{$metadatas[0]["SourceFile"]}",
-        "XMP:Title" => "image",
-        "XMP:Rights" => "image",
-        "XMP:Creator" => "image",
-        "XMP:City" => "image",
-        "XMP:Country" => "image",
-        "IPTC:Credit" => "image",
-        "IPTC:Source" => "image"
-    ));
-    file_put_contents('../data/tmp.json', json_encode($data));
-    $exiftool->setMetadata($uploaded_file,"../data/tmp.json");*/
     $model = new FileModel(pathinfo(basename($uploaded_file))['filename'] . ".json", "../../../../data/");
     $metas=$exiftool->getMetadata($uploaded_file);
     $model->saveToFile($metas);
 
 
     $img = array(
-        'name' => $metas[0]["XMP"]["Title"],
-        'creator' => $metas[0]['XMP']["Creator"],
+        'name' => isset($metas[0]["XMP"]["Title"])?$metas[0]["XMP"]["Title"]:'',
+        'creator' => isset($metas[0]['XMP']["Creator"])?$metas[0]['XMP']["Creator"]:'',
         'filename' => pathinfo(basename($uploaded_file))['filename'],
         'url' => "uploads/".$metas[0]["File"]["FileName"]
     );

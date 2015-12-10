@@ -96,7 +96,10 @@ class ImageController extends DocumentController
         $image = $this->request->getGetParam('name');
         $fileName = basename($image, pathinfo($image, PATHINFO_EXTENSION))."xmp";
         ImageDownload::download($fileName, DATA_PATH.'xmp/', 'text/xmp');
-        var_dump(file_exists(DATA_PATH.'xmp/'.$fileName));
+        var_dump(file_exists(DATA_PATH.'xmp/'.$fileName));$this->output .= '</ul>
+                </div>
+            </div>
+        </section>';
         $this->title = $fileName;
         $this->response->setPart('title', $this->title);
         
@@ -130,11 +133,44 @@ class ImageController extends DocumentController
 
     public function modify()
     {
-        $this->title = "Modify image";
+        $this->title = "Metadata Modification";
+        $name = $id = $this->request->getGetParam('name');
+        $action = "index.php?t=image&a=save";
+        $image = ImageJson::readImageModifMeta($name);
+        var_dump($image);
+        $form = new ImageForm($image);
+        $this->output = '<section class="feature-section make-page-height">
+        <div class="container vertical-align-middle">';
+        $this->output .= $form->renderForm('imageForm.tpl.php', $action);
+        $this->output .= '</div></section>';
+        $this->response->setPart('title', $this->title);
+        $this->response->setPart('output', $this->output);
+    }
+
+    public function save()
+    {
+        $data = array(array("SourceFile" => "{$metadatas[0]["SourceFile"]}",
+        "XMP:Title" => "image",
+        "XMP:Rights" => "image",
+        "XMP:Creator" => "image",
+        "XMP:City" => "image",
+        "XMP:Country" => "image",
+        "IPTC:Credit" => "image",
+        "IPTC:Source" => "image"
+    ));
+    file_put_contents('../data/tmp.json', json_encode($data));
+    $exiftool->setMetadata($uploaded_file,"../data/tmp.json");
+    }
+
+
+
+    public function delete()
+    {
+        $this->title = "Image delete";
         $name = $id = $this->request->getGetParam('name');
         $image = ImageJson::readImage($name);
-        $this->output = "modif";
-        $this->output = "modif";
+       
+        $this->output = "delete";
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
