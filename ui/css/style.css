@@ -1,3 +1,7 @@
+body{
+  background-color: #FFF3C1;
+}
+
 .theme-title{
   margin-top: 20px;
 }
@@ -105,3 +109,35 @@ li.panel {
   z-index: 100;
 }
 
+.about-page{
+    padding: 0 10px 30px;
+}
+.about-page .page-header{
+    text-align: center;
+    margin-bottom: 30px; 
+}
+.about-page .col-sm-4{
+    text-align: center;
+}
+.about-page .col-sm-4 img{
+    margin: auto;
+    width: 200px;
+}
+.about-page .col-sm-4 h2{
+    font-family: TimesNewRoman,serif;
+}
+.about-page .col-sm-4 h3{
+    font-family: TimesNewRoman,serif;
+    margin: 0;
+}
+.about-page .col-sm-4 h3 small{
+    display: block;
+}
+.about-page .col-sm-4 p{
+  text-align: left;
+  line-height: 23px;
+}
+.about-page .technique-img{
+  max-height: 80px;
+  width: auto!important;
+}

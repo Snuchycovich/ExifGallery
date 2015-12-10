@@ -17,8 +17,8 @@ class PageController extends DocumentController
 
     public function about()
     {
-        $this->title = "About";
-        $this->output = "info technique";
+        $this->title = "Page technique";
+        $this->output = file_get_contents(__DIR__.'/templates/about.php');
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
