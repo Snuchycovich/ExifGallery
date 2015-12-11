@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-	<title><?= $title; ?> | ExifGallery</title>
+	<title><?= $title ?> | ExifGallery</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<?= $oGMeta;?>
-	<?= $tweetCards;?>
+	<?= $OGMeta ?>
+	<?= $tweetCards ?>
 
 	<!--CSS-->
 	<link rel="stylesheet" href="ui/css/bootstrap.min.css">
@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="ui/css/style.css">
     
 </head>
-<body data-spy="scroll" data-target=".nav-wrapper" class="pink-blue header-right white">
+<body data-target=".nav-wrapper" class="header-right white">
 	<!-- =========== preloader ============= -->
 	<!--<div id="preloader" aria-hidden="true">
 	    <div class="heartbeat-loader">
@@ -63,8 +63,8 @@
 		
 	<div class="page-container clearfix" id="content" role="main">
 		<article>
-			<h2 class="theme-title"><?= $title; ?></h2>
-			<?= $output; ?>
+			<h2 class="theme-title"><?= $title ?></h2>
+			<?= $output ?>
 		</article>
 	</div>
 		<footer>

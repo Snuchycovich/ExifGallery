@@ -26,10 +26,12 @@ class ImageController extends DocumentController
         <ul class="row row-masonry simple-gallery photo-grid">
         <li class="grid-sizer"></li>
         <li class="gutter-sizer"></li>';
+        $imgTweet = "";
         if (!empty($list)) {
             foreach ($list as $image) {
                 $show = new ImageHtml($image);
                 $this->output .= $show->render('imageForHomeGallery.tpl.php');
+                $imgTweet .= '<meta name="twitter:'.json_decode($image, true)['name'].'" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($image, true)['url'].'">';
             }
         } else {
             $this->output .= "Pas d'images par le moment.";
@@ -38,33 +40,23 @@ class ImageController extends DocumentController
                 </div>
             </div>
         </section>';
+        $this->OGMeta ='<meta property="og:title" content="Exif Gallery" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery" />
+        <meta property="og:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery'.json_decode($list[0], true)['url'].'" />';
+        $this->tweetCards = '<meta name="twitter:card" content="gallery" />
+        <meta name="twitter:site" content="@Snuchycovich" />
+        <meta name="twitter:creator" content="@Snuchycovich" />
+        <meta name="twitter:title" content="Exif Gallery">
+        <meta name="twitter:description" content="Our gallery of images">
+        <meta name="twitter:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/" />'
+        .$imgTweet;
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
 
-    public function gallery()
-    {
-        $this->title = "Image List";
-        $list = ImageJson::readList();
-        $this->output = '<section class="feature-section make-page-height">
-        <div class="container vertical-align-middle">
-        <div class="row break-480px center-block">
-        <ul class="row row-masonry simple-gallery pop-gallery photo-grid">';
-        if (!empty($list)) {
-            foreach ($list as $image) {
-                $show = new ImageHtml($image);
-                $this->output .= $show->render('imageForGallery.tpl.php');
-            }
-        } else {
-            $this->output .= "Pas d'images par le moment.";
-        }
-        $this->output .= '</ul>
-                </div>
-            </div>
-        </section>';
-        $this->response->setPart('title', $this->title);
-        $this->response->setPart('output', $this->output);
-    }
     /**
      * Show image page from Json files by "nom" param
      * @return page Image
@@ -77,22 +69,53 @@ class ImageController extends DocumentController
         $this->output = $show->render('image.tpl.php');
         if (isset($image[0]['XMP']) && isset($image[0]['XMP']['Title'])) {
             $this->title = $image[0]['XMP']['Title'];
+            $title = $image[0]['XMP']['Title'];
         } elseif (isset($image[0]['IPTC']) && isset($image[0]['IPTC']['Headline'])) {
             $this->title = $image[0]['IPTC']['Headline'];
+            $title = $image[0]['IPTC']['Headline'];
         } else {
             $this->title = "Unknown";
+            $title = "Unknown";
         }
-
+        $file = $image[0]['File']['FileName'];
+        //var_dump($image[0]['File']);
+        $this->OGMeta ='<meta property="og:title" content="'.$title.'" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery" />
+        <meta property="og:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
+        <meta property="og:image:secure_url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
+        <meta property="og:image:type" content="'.$image[0]['File']['MIMEType'].'" />
+        <meta property="og:image:width" content="'.$image[0]['File']['ImageWidth'].'" />
+        <meta property="og:image:height" content="'.$image[0]['File']['ImageHeight'].'" />';
+        $this->tweetCards = '<meta name="twitter:card" content="photo" />
+        <meta name="twitter:site" content="@Snuchycovich" />
+        <meta name="twitter:title" content="'.$title.'" />
+        <meta name="twitter:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
+        <meta name="twitter:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=view&name='.$name.'/" />';
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
     public function downloadImage()
     {
+        $this->tweetCards = "";
+        $this->OGMeta = '';
+        $this->title = '';
+        $this->output = '';
         $image = $this->request->getGetParam('name');
         ImageDownload::download($image, IMAGE_PATH, 'image/' . pathinfo($image, PATHINFO_EXTENSION));
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
+        $this->response->setPart('title', $this->title);
+        $this->response->setPart('output', $this->output);
     }
     public function downloadXmp()
     {
+        $this->tweetCards = "";
+        $this->OGMeta = '';
+        $this->title = '';
+        $this->output = '';
         $image = $this->request->getGetParam('name');
         $fileName = basename($image, pathinfo($image, PATHINFO_EXTENSION))."xmp";
         ImageDownload::download($fileName, DATA_PATH.'xmp/', 'text/xmp');
@@ -101,21 +124,21 @@ class ImageController extends DocumentController
             </div>
         </section>';
         $this->title = $fileName;
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
+        $this->response->setPart('output', $this->output);
         
     }
 
     public function upload()
     {
         $this->title = "New Image";
+        $this->OGMeta = '';
+        $this->tweetCards = '';
         $this->output = file_get_contents(__DIR__.'/templates/uploadImage.php');
-        $this->response->setPart('title', $this->title);
-        $this->response->setPart('output', $this->output);
-    }
-    public function add()
-    {
-        $this->title = "Upload Image";
-        $this->output = file_get_contents(__DIR__.'/templates/uploadImage.php');
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
@@ -123,10 +146,19 @@ class ImageController extends DocumentController
     public function map()
     {
         $this->title = "Images Map";
-        
+        $list = ImageJson::readList();
         $this->output = file_get_contents(__DIR__.'/templates/map.php');
-        //$this->output = $show->afficher('liste.tpl.php');
-        
+        $this->OGMeta ='<meta property="og:title" content="Exif Gallery World Map" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=map" />
+        <meta property="og:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery'.json_decode($list[0], true)['url'].'" />';
+        $this->tweetCards = '<meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/" />
+        <meta name="twitter:title" content="Exif Gallery World Map" />
+        <meta name="twitter:description" content="Our set of images and location in the world map" />
+        <meta name="twitter:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
@@ -134,6 +166,8 @@ class ImageController extends DocumentController
     public function modify()
     {
         $this->title = "Metadata Modification";
+        $this->tweetCards = "";
+        $this->OGMeta = '';
         $name = $id = $this->request->getGetParam('name');
         $action = "index.php?t=image&a=save";
         $image = ImageJson::readImageModifMeta($name);
@@ -143,12 +177,18 @@ class ImageController extends DocumentController
         <div class="container vertical-align-middle">';
         $this->output .= $form->renderForm('imageForm.tpl.php', $action);
         $this->output .= '</div></section>';
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
 
     public function save()
     {
+        $this->tweetCards = "";
+        $this->OGMeta = '';
+        $this->title = '';
+        $this->output = '';
         $data = array(array("SourceFile" => "{$metadatas[0]["SourceFile"]}",
         "XMP:Title" => "image",
         "XMP:Rights" => "image",
@@ -157,59 +197,34 @@ class ImageController extends DocumentController
         "XMP:Country" => "image",
         "IPTC:Credit" => "image",
         "IPTC:Source" => "image"
-    ));
-    file_put_contents('../data/tmp.json', json_encode($data));
-    $exiftool->setMetadata($uploaded_file,"../data/tmp.json");
+        ));
+        file_put_contents('../data/tmp.json', json_encode($data));
+        $exiftool->setMetadata($uploaded_file, "../data/tmp.json");
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
+        $this->response->setPart('title', $this->title);
+        $this->response->setPart('output', $this->output);
     }
 
 
 
     public function delete()
     {
+        $this->tweetCards = "";
+        $this->OGMeta = '';
         $this->title = "Image delete";
         $name = $id = $this->request->getGetParam('name');
         $image = ImageJson::readImage($name);
        
         $this->output = "delete";
+        $this->response->setPart('OGMeta', $this->OGMeta);
+        $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
 
-    public function liste()
-    {
-        $this->title = "Liste d'image";
-        $liste = ImageBd::ttImages();
-        $this->output .= "<div class=\"liste-images\">";
-        if (!empty($liste)) {
-            foreach ($liste as $ligne) {
-                $afficher = new Imageoutput($ligne);
-                $this->output.=$afficher->afficher('affichierPourListe.tpl.php');
-            }
-        } else {
-            $this->output = "<p class=\"message\">Il n'y a pas d'image</p>";
-        }
-        $this->output .= "</div>";
-        $this->response->setPart('title', $this->title);
-        $this->response->setPart('output', $this->output);
-    }
-    public function ajouterImage()
-    {
-        try {
-            AccessControl::verifierStatut(array('Admin', 'Rédacteur'));
-            $this->title = "Ajouter une image";
-            $action = "index.php?t=image&amp;a=enregistrerImage";
-            $id = (int) $_GET['idArticle'];
-            $image = Image::initialize(array('idArticle' => $id));
-            $form = new ImageForm($image);
-            $this->output = $form->afficherForm('formImage.tpl.php', $action);
-            //var_dump($id);
-        } catch (AccessException $e) {
-            $this->title = "Accès refusé";
-            $this->output .= $e->getMessage();
-        }
-        $this->response->setPart('output', $this->output);
-        $this->response->setPart('title', $this->title);
-    }
+    
+    
             
     public function enregistrerImage()
     {
