@@ -72,11 +72,10 @@ if (isset($this->image[0])) {
                 <ul id="'.$key.'" class="collapse">';
 
                 foreach ($values as $k => $value) {
-                        if (is_array($value)) {
-                            $value = implode(", ", $value);
-                        }
-                        $metadata .= "<li><b>" . $k . '</b> : ' . strval($value) . "</li>";
-                       
+                    if (is_array($value)) {
+                        $value = implode(", ", $value);
+                    }
+                    $metadata .= "<li><b>" . $k . '</b> : ' . strval($value) . "</li>";
                 }
                 $metadata .='</ul>
                         </li>';
@@ -85,7 +84,7 @@ if (isset($this->image[0])) {
                 break;
         }
     }
-    if(empty($metadata) || $metadata==""){
+    if (empty($metadata) || $metadata=="") {
         $metadata = '<p class="text-center">No metadatas stored in this image</p>';
     }
 }
@@ -93,44 +92,26 @@ if (isset($this->image[0])) {
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-5">
-            <br/>
-                <div class="row center-block input-group input-group-sm ">
-                     <!-- FLICKR input -->
-                    <div class="col-xs-12 col-md-7">
-                        <select id="filtres" class="form-control" name="q[]" multiple="multiple"
-                                data-placeholder="Search for related images on flicker..." data-width="off"
-                                tabindex="-1">
-                                <?= $options;?>
-                        </select>
-                    </div>
-                    <div class="col-xs-2 col-md-2">
-                        <button id="bFlicker" type="submit" class="btn btn-default"><span class="ti ti-flickr"></span></button>
-                    </div>
-                    <!-- End FLICKR input -->
-                    <div class="col-xs-4 col-md-3">
-                        <div class="btn-group" role="group">
-                            <a class="btn btn-default" 
-                            href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
-                            title="Download Image">
-                                <span class="glyphicon glyphicon-download-alt"></span>
-                            </a>
-                            <a class="btn btn-default" 
-                            href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
-                            title="Download XMP File">
-                                <span class="ti ti-file"></span>
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-            <br>
+        <div class="col-sm-5">
+            <p class="the-couple-statement text-center">
+                <?= $creator; ?><br><span class="date-image"><?= $date ?></span>
+            </p>
             <div class="img-treatment">
                 <a href="<?= $hrefImage; ?>" target="_blank">
                     <img src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"/>
                 </a>
             </div>
             <div class="text-right">
+                <a class="btn btn-default" 
+                href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
+                title="Download Image">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </a>
+                <a class="btn btn-default" 
+                href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
+                title="Download XMP File">
+                    <span class="ti ti-file"></span>
+                </a>
                 <a href="index.php?t=image&amp;a=modify&amp;name=<?= $name; ?>" class="btn btn-default" title="Modify Metadatas">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
@@ -138,32 +119,40 @@ if (isset($this->image[0])) {
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>  
             </div>
-            
-            <div class="desc">
-                <?= $description ?>
+            <br>
+            <div class="row center-block input-group input-group-sm ">
+                 <!-- FLICKR input -->
+                <div class="col-xs-10">
+                    <select id="filtres" class="form-control" name="q[]" multiple="multiple"
+                            data-placeholder="Search for related images on flicker..." data-width="off"
+                            tabindex="-1">
+                            <?= $options;?>
+                    </select>
+                </div>
+                <div class="col-xs-1">
+                    <button id="bFlicker" type="submit" class="btn btn-default"><span class="ti ti-flickr"></span></button>
+                </div>
+                <div id="flicker" class="col-sm-12"></div>
+                <!-- End FLICKR input -->
             </div>
         </div>
-        <!-- /.col-xs-6 -->
-        <div class="col-xs-7">
+        <!-- /.col-sm-5 -->
+        <div class="col-sm-7">
             <div class="the-couple-text-wrapper center-block">
-                <p class="the-couple-statement text-center">
-                    <?= $creator; ?><br><span class="date-image"><?= $date ?></span>
-                </p>
+                <div class="desc">
+                    <?= $description ?>
+                </div>
                 <div id="metadata">
-                <h6 class="text-center">Images Metadatas</h6>
-                <ul class="nav nav-stacked" id="accordion1">
-                    <?= $metadata; ?>
-                </ul>
-        </div>
+                    <h6 class="text-center">Images Metadatas</h6>
+                    <ul class="nav nav-stacked" id="accordion1">
+                        <?= $metadata; ?>
+                    </ul>
+                </div>
             </div>
         </div>
-        <!-- /.col-xs-6 -->
+        <!-- /.col-sm-7 -->
     </div>
     <!--/.row -->
     
-    <div class="row">
 
-        <div id="flicker" class="col-xs-5"></div>
-        
-    </div>
 </div>
