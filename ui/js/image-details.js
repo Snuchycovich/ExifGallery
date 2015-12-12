@@ -13,6 +13,8 @@
             removeClass: "btn btn-default",
             removeLabel: "",
             removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+            cancelClass: "btn btn-default",
+            cancelLabel: "",
             uploadClass: "btn btn-default",
             uploadLabel: "",
             uploadUrl: "src/Aen/ExifGallery/Image/uploder.php",

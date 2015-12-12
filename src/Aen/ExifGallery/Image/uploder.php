@@ -15,11 +15,11 @@ $uploaded_file=$uploader->upload();
 
 if (isset($uploaded_file)) {
     $exiftool = new ExifTool("");
-    $metadatas=$exiftool->getMetadata($uploaded_file);
     $model = new FileModel(pathinfo(basename($uploaded_file))['filename'] . ".json", "../../../../data/");
     $metas=$exiftool->getMetadata($uploaded_file);
     $model->saveToFile($metas);
 
+    $exiftool->getXMPdata($uploaded_file,"../../../../data/xmp/".pathinfo(basename($uploaded_file))['filename'] . ".xmp");
 
     $img = array(
         'name' => isset($metas[0]["XMP"]["Title"])?$metas[0]["XMP"]["Title"]:'',
@@ -29,11 +29,6 @@ if (isset($uploaded_file)) {
     );
 
     appendToFile("../../../../images.json", json_encode($img));
-    //generer le fichier xmp de l'image
-    //$model = new FileModel(pathinfo(basename($uploaded_file))['filename'] . ".xmp", "../../../../data/xmp/");
-    $exiftool->getXMPdata($uploaded_file);
-    //$model->saveToFile($xmpMetas);
-    //DATA_PATH.'xmp/' . pathinfo(basename($image))['filename'] . ".xmp"
 }
 
 function appendToFile($file, $data = array())

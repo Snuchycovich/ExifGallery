@@ -9,10 +9,10 @@ use Aen\ExifGallery\Image\ImageForm;
 use Aen\ExifGallery\Image\ImageHtml;
 
 use Aen\Document\DocumentController;
-
-use Aen\Utils\UploadManager\UploadManager;
-use Aen\Utils\UploadManager\UploadException;
 use Aen\Utils\RenderTemplate\RenderTemplate;
+
+use Aen\Library\ExifTool\ExifTool;
+use Aen\Library\ExifTool\FileModel;
 
 class ImageController extends DocumentController
 {
@@ -34,7 +34,7 @@ class ImageController extends DocumentController
                 $imgTweet .= '<meta name="twitter:'.json_decode($image, true)['name'].'" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($image, true)['url'].'">';
             }
         } else {
-            $this->output .= "Pas d'images par le moment.";
+            $this->output .= "No available images.";
         }
         $this->output .= '</ul>
                 </div>
@@ -169,9 +169,9 @@ class ImageController extends DocumentController
         $this->tweetCards = "";
         $this->OGMeta = '';
         $name = $id = $this->request->getGetParam('name');
-        $action = "index.php?t=image&a=save";
+        $action = "index.php?t=image&a=save&name=".$name;
         $image = ImageJson::readImageModifMeta($name);
-        var_dump($image);
+        //var_dump($image);
         $form = new ImageForm($image);
         $this->output = '<section class="feature-section make-page-height">
         <div class="container vertical-align-middle">';
@@ -185,42 +185,84 @@ class ImageController extends DocumentController
 
     public function save()
     {
-        $this->tweetCards = "";
-        $this->OGMeta = '';
-        $this->title = '';
-        $this->output = '';
-        $data = array(array("SourceFile" => "{$metadatas[0]["SourceFile"]}",
-        "XMP:Title" => "image",
-        "XMP:Rights" => "image",
-        "XMP:Creator" => "image",
-        "XMP:City" => "image",
-        "XMP:Country" => "image",
-        "IPTC:Credit" => "image",
-        "IPTC:Source" => "image"
+        $name = $this->request->getGetParam('name');
+        $metadatas = ImageJson::readImage($name);
+        $data = array(array("SourceFile" => "uploads/".basename($metadatas[0]["SourceFile"]),
+            //XMP
+            "XMP:Creator" => $_POST["xmp-creator"],
+            "XMP:Title" => $_POST['xmp-title'],
+            "XMP:Description" => $_POST['xmp-desc'],
+            "XMP:Rights" => $_POST["xmp-rights"],
+            "XMP:CreateDate" => $_POST["xmp-date"],
+            "XMP:Subject" => explode(", ", $_POST["xmp-keywords"]),
+            "XMP:State" => $_POST["xmp-state"],
+            "XMP:City" => $_POST["xmp-city"],
+            "XMP:Country" => $_POST["xmp-country"],
+            //IPTC
+            "IPTC:By-line" => $_POST["iptc-creator"],
+            "IPTC:Headline" => $_POST['iptc-title'],
+            "IPTC:Caption-Abstract" => $_POST['iptc-desc'],
+            "IPTC:CopyrightNotice" => $_POST["iptc-rights"],
+            "IPTC:DateCreated" => $_POST["iptc-date"],
+            "IPTC:Keywords" => explode(", ", $_POST["iptc-keywords"]),
+            "IPTC:Province-State" => $_POST["iptc-state"],
+            "IPTC:City" => $_POST["iptc-city"],
+            "IPTC:Country-PrimaryLocationName" => $_POST["iptc-country"],
+            //EXIF
+            "EXIF:Artist" => $_POST["exif-creator"],
+            "EXIF:ImageDescription " => $_POST['exif-desc'],
+            "EXIF:Copyright " => $_POST["exif-rights"],
+            "EXIF:CreateDate " => $_POST["exif-date"]
         ));
-        file_put_contents('../data/tmp.json', json_encode($data));
-        $exiftool->setMetadata($uploaded_file, "../data/tmp.json");
-        $this->response->setPart('OGMeta', $this->OGMeta);
-        $this->response->setPart('tweetCards', $this->tweetCards);
-        $this->response->setPart('title', $this->title);
-        $this->response->setPart('output', $this->output);
+        file_put_contents('./data/tmp.json', json_encode($data));
+        $exiftool = new ExifTool("./uploads/");
+        $exiftool->setMetadata(basename($metadatas[0]["SourceFile"]), "./data/tmp.json");
+        $metas=$exiftool->getMetadata(basename($metadatas[0]["SourceFile"]));
+        $model = new FileModel($name.".json", "./data/");
+        $model->saveToFile($metas);
+        $exiftool->getXMPdata(basename($metas[0]["SourceFile"]),"data/xmp/".$name . ".xmp");
+        //change image list file
+        $images=ImageJson::readList();
+        foreach ($images as $key => $image) {
+            $image=json_decode($image,true);
+            if ($image["filename"] == $name) {
+                $images[$key] = json_encode(array(
+                    "name" => $_POST["xmp-title"],
+                    'creator' => $_POST["xmp-creator"],
+                    "filename" => $image["filename"],
+                    "url" => $image["url"]
+                ));
+                break;
+            }
+        }
+        file_put_contents("images.json",json_encode($images));
+        header("Location: index.php?t=image&a=view&name=".$name);
+        die();
     }
 
 
 
     public function delete()
     {
-        $this->tweetCards = "";
-        $this->OGMeta = '';
-        $this->title = "Image delete";
-        $name = $id = $this->request->getGetParam('name');
-        $image = ImageJson::readImage($name);
-       
-        $this->output = "delete";
-        $this->response->setPart('OGMeta', $this->OGMeta);
-        $this->response->setPart('tweetCards', $this->tweetCards);
-        $this->response->setPart('title', $this->title);
-        $this->response->setPart('output', $this->output);
+        $name = $this->request->getGetParam('name');
+        $images=ImageJson::readList();
+        foreach ($images as $key => $image) {
+            $image=json_decode($image,true);
+            if ($image["filename"] == $name) {
+                unset($images[$key]);
+                break;
+            }
+        }
+        if(isset($images) && !empty($images)){
+            file_put_contents("images.json",json_encode(array_values($images)));
+        }else{
+            file_put_contents("images.json",null);
+        }
+        unlink($image["url"]);
+        unlink("data/".$name.".json");
+        unlink("data/xmp/".$name.".xmp");
+        header("Location: index.php");
+        die();
     }
 
     

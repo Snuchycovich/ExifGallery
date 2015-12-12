@@ -24,13 +24,9 @@ class ExifTool
 
     }
 
-    public function getXMPdata($image)
+    public function getXMPdata($image,$xmpFile)
     {
-        //if (file_exists($this->image_path . $image) && !file_exists("../data/xmp/". pathinfo(basename($image))['filename'] . ".xmp")) {
-            exec("exiftool -xmp -b {$this->image_path}{$image} -o ../../../../data/xmp/".pathinfo(basename($image))['filename'] . ".xmp");
-            //exec("exiftool -xmp -b {$this->image_path}{$image}",$xmp);
-            //return (json_decode(implode($xmp),true));
-        //}
+            exec("exiftool -xmp -b {$this->image_path}{$image} > {$xmpFile}");
     }
 
     public function setMetadata($image,$src)

@@ -10,22 +10,29 @@ if (isset($this->image[0]["XMP"]["CreatorWorkURL"])) {
 }
 
 if (isset($this->image[0]["XMP"]["Creator"])) {
-    if (empty($creatorUrl) || $creatorUrl == "") {
-        $creator = "By ". $this->image[0]["XMP"]["Creator"]."<br>";
-    } else {
-        $creator = "<a target='_blank' href=".$creatorUrl. "> By ". $this->image[0]["XMP"]["Creator"]."</a>";
-    }
+    $creator = $this->image[0]["XMP"]["Creator"];
+}else if (isset($this->image[0]["IPTC"]["By-line"])) {
+        $creator = $this->image[0]["IPTC"]["By-line"];
+}else if (isset($this->image[0]["EXIF"]["Artist"])) {
+    $creator = $this->image[0]["EXIF"]["Artist"];
+}
+if (empty($creatorUrl) || $creatorUrl == "") {
+    $creator = "By " . $creator;
+} else {
+    $creator = "<a target='_blank' href=" . $creatorUrl . "> By " . $creator . "</a>";
 }
 
 if (isset($this->image[0]["IPTC"]["Caption-Abstract"])) {
-    $description = '<blockquote><font size="2">'.$this->image[0]["IPTC"]["Caption-Abstract"].'</font></blockquote>';
+    $description = '<blockquote><font size="2">' . $this->image[0]["IPTC"]["Caption-Abstract"] . '</font></blockquote>';
 } elseif (isset($this->image[0]["XMP"]["Description"])) {
-    $description = '<blockquote><font size="2">'.$this->image[0]["XMP"]["Description"].'</font></blockquote>';
+    $description = '<blockquote><font size="2">' . $this->image[0]["XMP"]["Description"] . '</font></blockquote>';
 }
 
-
-if (isset($this->image[0]["IPTC"]["DateCreated"])) {
-    $list = explode(":", $this->image[0]["IPTC"]["DateCreated"]);
+(isset($this->image[0]["IPTC"]["DateCreated"])) ? $date = $this->image[0]["IPTC"]["DateCreated"] :
+    ((isset($this->image[0]["XMP"]["CreateDate"])) ? $date = $this->image[0]["XMP"]["CreateDate"] :
+        ((isset($this->image[0]["EXIF"]["DateTimeOriginal"])) ? $date = $this->image[0]["EXIF"]["DateTimeOriginal"] : $date = null));
+if (isset($date)) {
+    $list = explode(":", explode(" ", $date)[0]);
     $date = "Created in " . $list[1] . "/" . $list[2] . "/" . $list[0];
 } else {
     $date = "";
@@ -52,10 +59,10 @@ if (isset($this->image[0]['IPTC']['Keywords'])) {
 }
 $options = "";
 foreach ($keywords as $keyword) {
-    $options .= '<option id="'.$keyword.'" value="'.$keyword.'">'.$keyword.'</option>';
+    $options .= '<option id="' . $keyword . '" value="' . $keyword . '">' . $keyword . '</option>';
 }
 //url
-$name = basename($this->image[0]['File']['FileName'], '.'.pathinfo($this->image[0]['File']['FileName'], PATHINFO_EXTENSION));
+$name = basename($this->image[0]['File']['FileName'], '.' . pathinfo($this->image[0]['File']['FileName'], PATHINFO_EXTENSION));
 
 // METADATA ACCORDION
 $metadata = "";
@@ -67,9 +74,9 @@ if (isset($this->image[0])) {
             case 'XMP':
             case 'IPTC':
                 $metadata .= '<li class="panel">
-                <a data-toggle="collapse" data-parent="#accordion1" href="#'.$key.'">
-                <b><font size="4">'.$key.'</font></b></a>
-                <ul id="'.$key.'" class="collapse">';
+                <a data-toggle="collapse" data-parent="#accordion1" href="#' . $key . '">
+                <b><font size="4">' . $key . '</font></b></a>
+                <ul id="' . $key . '" class="collapse collapse-content">';
 
                 foreach ($values as $k => $value) {
                     if (is_array($value)) {
@@ -77,14 +84,14 @@ if (isset($this->image[0])) {
                     }
                     $metadata .= "<li><b>" . $k . '</b> : ' . strval($value) . "</li>";
                 }
-                $metadata .='</ul>
+                $metadata .= '</ul>
                         </li>';
                 break;
             default:
                 break;
         }
     }
-    if (empty($metadata) || $metadata=="") {
+    if (empty($metadata) || $metadata == "") {
         $metadata = '<p class="text-center">No metadatas stored in this image</p>';
     }
 }
@@ -93,48 +100,69 @@ if (isset($this->image[0])) {
 <div class="container">
     <div class="row">
         <div class="col-sm-5">
-            <p class="the-couple-statement text-center">
-                <?= $creator; ?><br><span class="date-image"><?= $date ?></span>
-            </p>
-            <div class="img-treatment">
-                <a href="<?= $hrefImage; ?>" target="_blank">
+            <div class="row">
+                <p class="the-couple-statement text-center">
+                    <?= $creator; ?><br><span class="date-image"><?= $date ?></span>
+                </p>
+                <div class="row-masonry simple-gallery pop-gallery">
+
+                <li class="grid-sizer"></li>
+                <!-- required for fluid masonry layout -->
+                <li class="gutter-sizer"></li>
+                <!-- required for fluid masonry layout -->
+                <div class="img-treatment">
+                    <a class="pop-gallery-img popup-indicator"
+                       href="./uploads/<?= $this->image[0]['File']['FileName'] ?>">
+                        <img src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"
+                             alt="<?= $this->image[0]['File']['FileName'] ?>"/>
+                    </a>
+
+
+                    <!-- <a href="<?= $hrefImage; ?>" target="_blank">
                     <img src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"/>
-                </a>
-            </div>
-            <div class="text-right">
-                <a class="btn btn-default" 
-                href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
-                title="Download Image">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                </a>
-                <a class="btn btn-default" 
-                href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
-                title="Download XMP File">
-                    <span class="ti ti-file"></span>
-                </a>
-                <a href="index.php?t=image&amp;a=modify&amp;name=<?= $name; ?>" class="btn btn-default" title="Modify Metadatas">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a>
-                <a href="index.php?t=image&amp;a=delete&amp;name=<?= $name; ?>" class="btn btn-default" title="Delete Image">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </a>  
-            </div>
-            <br>
-            <div class="row center-block input-group input-group-sm ">
-                 <!-- FLICKR input -->
-                <div class="col-xs-10">
-                    <select id="filtres" class="form-control" name="q[]" multiple="multiple"
-                            data-placeholder="Search for related images on flicker..." data-width="off"
-                            tabindex="-1">
-                            <?= $options;?>
-                    </select>
+                </a>-->
                 </div>
-                <div class="col-xs-1">
-                    <button id="bFlicker" type="submit" class="btn btn-default"><span class="ti ti-flickr"></span></button>
-                </div>
-                <div id="flicker" class="col-sm-12"></div>
-                <!-- End FLICKR input -->
             </div>
+                <div class="text-center">
+                    <a class="btn btn-default"
+                       href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
+                       title="Download Image">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </a>
+                    <a class="btn btn-default"
+                       href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
+                       title="Download XMP File">
+                        <span class="ti ti-file"></span>
+                    </a>
+                    <a href="index.php?t=image&amp;a=modify&amp;name=<?= $name; ?>" class="btn btn-default"
+                       title="Modify Metadatas">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a href="index.php?t=image&amp;a=delete&amp;name=<?= $name; ?>" class="btn btn-default"
+                       title="Delete Image">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
+                <div class="flick">
+                    <!-- FLICKR input -->
+                    <div class="col-md-1"></div>
+                    <div class="col-md-9">
+                        <select id="filtres" class="form-control" name="q[]" multiple="multiple"
+                                data-placeholder="Search for related images on flicker..." data-width="off"
+                                tabindex="-1">
+                            <?= $options; ?>
+                        </select>
+                    </div>
+                    <div class="col-xs-1">
+                        <button id="bFlicker" type="submit" class="btn btn-default"><span class="ti ti-flickr"></span>
+                        </button>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+
+            <div class="row" id="flicker"></div>
+
         </div>
         <!-- /.col-sm-5 -->
         <div class="col-sm-7">
@@ -153,6 +181,5 @@ if (isset($this->image[0])) {
         <!-- /.col-sm-7 -->
     </div>
     <!--/.row -->
-    
 
 </div>
