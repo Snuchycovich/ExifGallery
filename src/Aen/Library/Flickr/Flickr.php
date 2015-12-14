@@ -14,7 +14,7 @@ class Flickr {
 
 
 
-    public function search($query = null, $user_id = null, $per_page = 20, $format = 'php_serial') {
+    public function search($query = null, $user_id = null, $per_page = 28, $format = 'php_serial') {
 
         $args = array(
 

@@ -124,23 +124,27 @@ if (isset($this->image[0])) {
                 </div>
             </div>
                 <div class="text-center">
-                    <a class="btn btn-default"
+                    <a class="btn btn-default info"
                        href="index.php?t=image&amp;a=downloadImage&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
-                       title="Download Image">
+                       title="">
                         <span class="glyphicon glyphicon-download-alt"></span>
+                        <b>Download Image</b>
                     </a>
-                    <a class="btn btn-default"
+                    <a class="btn btn-default info"
                        href="index.php?t=image&amp;a=downloadXmp&amp;name=<?= $this->image[0]['File']['FileName'] ?>"
-                       title="Download XMP File">
-                        <span class="ti ti-file"></span>
+                       title="">
+                        <span class="glyphicon glyphicon-file"></span>
+                        <b>Download XMP Sidecar File</b>
                     </a>
-                    <a href="index.php?t=image&amp;a=modify&amp;name=<?= $name; ?>" class="btn btn-default"
-                       title="Modify Metadatas">
+                    <a href="index.php?t=image&amp;a=modify&amp;name=<?= $name; ?>" class="btn btn-default info"
+                       title="">
                         <span class="glyphicon glyphicon-pencil"></span>
+                        <b>Modify Metadatas</b>
                     </a>
-                    <a href="index.php?t=image&amp;a=delete&amp;name=<?= $name; ?>" class="btn btn-default"
-                       title="Delete Image">
+                    <a href="index.php?t=image&amp;a=delete&amp;name=<?= $name; ?>" class="btn btn-default info"
+                       title="">
                         <span class="glyphicon glyphicon-trash"></span>
+                        <b>Delete Image</b>
                     </a>
                 </div>
                 <div class="flick">
@@ -148,14 +152,14 @@ if (isset($this->image[0])) {
                     <div class="col-md-1"></div>
                     <div class="col-md-9">
                         <select id="filtres" class="form-control" name="q[]" multiple="multiple"
-                                data-placeholder="Search for related images on flicker..." data-width="off"
+                                data-placeholder="Search for related images on flickr..." data-width="off"
                                 tabindex="-1">
                             <?= $options; ?>
                         </select>
                     </div>
                     <div class="col-xs-1">
-                        <button id="bFlicker" type="submit" class="btn btn-default"><span class="ti ti-flickr"></span>
-                        </button>
+                        <a id="bFlicker" type="submit" class="btn btn-default info"><span class="ti ti-flickr"></span>
+                            <b>Search on Flickr</b></a>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
