@@ -150,3 +150,22 @@ body{
 .flick{
   padding-top: 10px;
 }
+
+a.info{
+  position:relative; /*this is the key*/
+  z-index:24;
+  text-decoration:none}
+
+a.info:hover{
+  z-index:25;
+}
+
+a.info b{display: none}
+
+a.info:hover b{
+  display:block;
+  position:absolute;
+  top:2em; left:2em; width:10em;
+  border:1px solid #3c3c3c;
+  background-color:white; color:#000;
+  text-align: center}
