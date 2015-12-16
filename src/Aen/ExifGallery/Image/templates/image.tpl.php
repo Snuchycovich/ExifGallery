@@ -103,7 +103,7 @@ if (isset($this->image[0])) {
         <div class="col-sm-5">
             <div class="row">
                 <p class="the-couple-statement text-center">
-                    <?= $creator; ?><br><div class="date-image"><?= $date ?></div>
+                    <?= $creator; ?><br><div class="date-image text-center"><?= $date ?></div>
                 </p>
                 <div class="row-masonry simple-gallery pop-gallery">
 
