@@ -42,4 +42,10 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe rem nisi accusamus error velit animi non ipsa placeat. Recusandae, suscipit, soluta quibusdam accusamus a veniam quaerat eveniet eligendi dolor consectetur.</p>
     </div>
     <!-- /.col-sm-4 -->
+    <div class="col-sm-4">
+        <h2>Google Maps API</h2>
+        <img class="technique-img" src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTN0nsdL62NMg94JwNhesyD5rW6dpQ10p6FfVYKD4jc3R-ZLK_M" alt="Google maps api">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe rem nisi accusamus error velit animi non ipsa placeat. Recusandae, suscipit, soluta quibusdam accusamus a veniam quaerat eveniet eligendi dolor consectetur.</p>
+    </div>
+    <!-- /.col-sm-4 -->
 </div>

@@ -1,15 +1,14 @@
-<li class="img-treatment">
+<li class="img-treatment" itemscope itemtype="http://schema.org/ImageObject">
 	<a href="index.php?t=image&amp;a=view&amp;name=<?= urlencode(json_decode($this->image, true)["filename"]);?>" class="pop-gallery-img color-inherit-link" >
     	<figure class="clickedimage">
             <figcaption>
                 <p>
-                    <?= json_decode($this->image, true)["name"];?><br/>
-                    By <?= json_decode($this->image, true)["creator"];?>
+                    <span itemprop="name"><?= json_decode($this->image, true)["name"];?></span><br/>
+                    By <span itemprop="author"><?= json_decode($this->image, true)["creator"];?></span>
                 </p>
             </figcaption>
-        <img src="<?= json_decode($this->image, true)['url'];?>"
+        <img itemprop="contentUrl" src="<?= json_decode($this->image, true)['url'];?>"
         alt="<?= json_decode($this->image, true)["filename"];?>"/>
-
      </figure>
    </a> 
 </li>

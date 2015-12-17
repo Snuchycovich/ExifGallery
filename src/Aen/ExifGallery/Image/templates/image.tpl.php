@@ -16,6 +16,7 @@ if (isset($this->image[0]["XMP"]["Creator"])) {
 }else if (isset($this->image[0]["EXIF"]["Artist"])) {
     $creator = $this->image[0]["EXIF"]["Artist"];
 }
+$creator = "<span itemprop=\"author\">$creator</span>";
 if (empty($creatorUrl) || $creatorUrl == "") {
     $creator = "By " . $creator;
 } else {
@@ -33,7 +34,7 @@ if (isset($this->image[0]["IPTC"]["Caption-Abstract"])) {
         ((isset($this->image[0]["EXIF"]["DateTimeOriginal"])) ? $date = $this->image[0]["EXIF"]["DateTimeOriginal"] : $date = null));
 if (isset($date)) {
     $list = explode(":", explode(" ", $date)[0]);
-    $date = "Created in " . $list[1] . "/" . $list[2] . "/" . $list[0];
+    $date = "Created in <span itemprop=\"dateCreated\" content=\"$list[0]-$list[1]-$list[2]\">" . $list[1] . "/" . $list[2] . "/" . $list[0]."</span>";
 } else {
     $date = "";
 }
@@ -82,7 +83,7 @@ if (isset($this->image[0])) {
                     if (is_array($value)) {
                         $value = implode(", ", $value);
                     }
-                    $metadata .= "<li><b>" . $k . '</b> : ' . strval($value) . "</li>";
+                    $metadata .= '<li itemprop="exifData" itemscope itemtype="http://schema.org/PropertyValue"><b itemprop="name">' . $k . '</b> : <span itemprop="value">' . strval($value) . "</span></li>";
                 }
                 $metadata .= '</ul>
                         </li>';
@@ -98,11 +99,11 @@ if (isset($this->image[0])) {
 ?>
 
 <div class="container">
-    <div class="row">
+    <div class="row" itemscope itemtype="//schema.org/ImageObject">
         <div class="col-sm-5">
             <div class="row">
                 <p class="the-couple-statement text-center">
-                    <?= $creator; ?><br><span class="date-image"><?= $date ?></span>
+                    <?= $creator; ?><br><div class="date-image text-center"><?= $date ?></div>
                 </p>
                 <div class="row-masonry simple-gallery pop-gallery">
 
@@ -113,7 +114,7 @@ if (isset($this->image[0])) {
                 <div class="img-treatment">
                     <a class="pop-gallery-img popup-indicator"
                        href="./uploads/<?= $this->image[0]['File']['FileName'] ?>">
-                        <img src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"
+                        <img itemprop="contentUrl" src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"
                              alt="<?= $this->image[0]['File']['FileName'] ?>"/>
                     </a>
 
@@ -171,7 +172,7 @@ if (isset($this->image[0])) {
         <!-- /.col-sm-5 -->
         <div class="col-sm-7">
             <div class="the-couple-text-wrapper center-block">
-                <div class="desc">
+                <div class="desc" itemprop="description">
                     <?= $description ?>
                 </div>
                 <div id="metadata">
