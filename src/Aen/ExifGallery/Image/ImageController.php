@@ -21,6 +21,7 @@ class ImageController extends DocumentController
     {
         $this->title = "Exiftool Gallery";
         $list = ImageJson::readList();
+        shuffle($list);
         $this->output = '<section class="feature-section">
         <div class="container">
         <ul class="row row-masonry simple-gallery photo-grid">
