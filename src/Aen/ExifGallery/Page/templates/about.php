@@ -1,25 +1,33 @@
 <div class="row about-page">
-    
+
+    <div class="desc">
+        <span class="title">‘Exif Gallery’</span> est une application web permettant de créer une galerie de photos et
+        de manipuler leurs métadonnées. Le projet utilise ces métadonnées pour remplir
+        certaines informations tels que le titre, le créateur, la date de création et la
+        description.
+    </div>
 
     <div class="col-lg-12">
-        <p class="page-header">Our Team</p>
+        <p class="page-header">Notre équipe</p>
     </div>
+
+
     
     <div class="col-sm-4">
         <img class="img-circle img-responsive img-center" src="https://avatars1.githubusercontent.com/u/15608615?v=3&s=460" alt="">
-        <h3>Emiliano CASTILLO
+        <h3 class="member">Emiliano CASTILLO
             <!-- <small>Dev</small> -->
         </h3>
         <!-- <p>What does this team member to? Keep it short! This is also a great spot for social links!</p> -->
     </div>
     <div class="col-sm-4">
-        <img class="img-circle img-responsive img-center" src="https://avatars2.githubusercontent.com/u/3535482?v=3&s=460" alt="">
-        <h3>Amani LAHBIB 
+        <img class="img-circle img-responsive img-center" src="ui/images/amani.png" alt="">
+        <h3 class="member">Amani LAHBIB
         </h3>
     </div>
     <div class="col-sm-4">
         <img class="img-circle img-responsive img-center" src="https://scontent-cdg2-1.xx.fbcdn.net/hprofile-xlf1/v/t1.0-1/p160x160/11667384_861618807246203_8742737548242366606_n.jpg?oh=67cbeaf235c867ad1cb3cd930e9c472d&oe=56DF517A" alt="">
-        <h3>Nikita KHARAIM
+        <h3 class="member">Nikita KHARAIM
         </h3>
     </div>
 </div>
@@ -29,19 +37,13 @@
     </div>
     <!--Description -->
     <div class="col-md-12">
-        <p>‘Exif Gallery’ est une application web permettant de créer une galerie de photos et 
-            de manipuler leurs métadonnées. Le projet utilise ces métadonnées pour remplir 
-            certaines informations tels que le titre, le créateur, la date de création et la 
-            description.</p>
         <p>Dans la page principale, nous trouvons la galerie de toutes les photos sauvegardées 
             sur le serveur. En cliquant sur l’une des photos, nous accédons à sa page de 
             détails affichant ses informations et ses métadonnées. Cette page donne accès à la 
             page de modification des métadonnées de l’image et permet de télécharger ou 
             supprimer la photo ainsi que de télécharger son fichier xmp Sidecar. Nous trouvons 
             aussi un champ de recherche sur Flickr des images en rapport avec l’image affichée 
-            via des tags.</p>
-
-        <p>Enfin, la page « Map » affiche les images avec des données de latitude et longitude 
+            via des tags. <br>Enfin, la page « Map » affiche les images avec des données de latitude et longitude
             dans une carte du monde. </p>    
     </div>
     
@@ -56,7 +58,7 @@
     <!-- /.col-sm-4 -->
     <div class="col-sm-4">
         <img class="technique-img" src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTTQiWHh3vAyBr0D5tKWviTDNyWQt5EyVyxcR8WZmWrhZyenLkQEw" alt="php framework">
-        <p>Ce projet a était l’occasion pour Amani d'avoir un approche aux notions "Objet" 
+        <p>Ce projet a été l’occasion pour Amani d'avoir une approche aux notions "Objet"
             de PHP. Nous avons en partie utilisé l'architecture MVC réalisé l'année dernière 
             lors du cours PHP avance.</p>
     </div>
@@ -74,30 +76,40 @@
     <!-- /.col-sm-4 -->
     <div class="col-sm-4">
         <img class="technique-img" src="ui/images/leaflet.png" alt="Leaflet">
-        <p>Utilistation de la librerie <a href="http://leafletjs.com/">Leaflet</a> de javascript qui permet l'affichache de une 
-            carte dynamique ainsi que des marqueurs positionés selon des coordonnées gps 
-            passés. Cette librarie a été créé par <a href="https://www.mapbox.com/">Mapbox</a> donc il faut s'inscrir, initiallement 
-            de façon gratuite. Leaflet est la librerie utiliser pour affichier la carte de 
-            FlickrMap.<p>
-        <p>Nous avous utilisé un effet lightbox pour affichier les image en grande.
-
-        <p>Réalisation d'une petite function en jQuery pour convertir les donnée latitude et 
+        <p>La librairie <a href="http://leafletjs.com/">Leaflet</a> de JavaScript a été créé par <a href="https://www.mapbox.com/">Mapbox</a> et utilisée pour afficher la carte de
+            FlickrMap.
+            Elle nous a permis l'affichage d'une carte dynamique avec des marqueurs positionés selon les coordonnées gps des images
+            passés. <p>
+        <p>Pour ce faire, nous avons implémenté une fonction en jQuery pour convertir les données latitude et
             longitude en format Degree – Minute – seconds trouvés dans les metadata EXIF des images 
             en coordonées GPS pour les passer à leaflet.</p>
+        <p>Nous avons, ensuite, utilisé un effet lightbox pour afficher les images en grande.</p>
     <!-- /.col-sm-4 -->
     </div>
     <div class="col-sm-4">
         <img class="technique-img" src="ui/images/logo-flickr.jpg" alt="Flickr">
-        <p>L’API de Flickr fournit un nombre de méthodes pour rechercher des images, 
-            contacts, commentaires et notes.</p>
+        <p>L’API de <a href="https://www.flickr.com/services/api/">Flickr</a> fournit un nombre de méthodes pour rechercher des images,
+            contacts, notes et commentaires.</p>
         <p>Nous avons utilisé la méthode ‘flickr.photos.search’ pour rechercher des 
             images en utilisant PHP. Pour ce faire, nous avons, tout d'abord, obtenu un 
             api_key en se rendant au site « <a href="http://www.flickr.com/services/apps/create/">
             http://www.flickr.com/services/apps/create/</a> » 
-            pour pouvoir emmètre nos requêtes au flickr api.</p>
+            utile pour emmètre nos requêtes au flickr api.</p>
         <p>En effet, nous envoyons une requête REST en spécifiant le format de retour 
             ‘php_serial’, le nombre d’images souhaitées, notre api key ainsi que le texte 
             de la recherche.</p>
+
+    <!-- /.col-sm-4 -->
+    </div>
+    <div class="col-sm-4">
+        <img class="technique-img" src="ui/images/upload.png" alt="File Upload">
+        <p>Le plugin <a href="http://plugins.krajee.com/file-input">'Bootstrap File Input'</a> est une amélioration
+            du 'file input' de HTML 5 offrant un contrôle de sélecteur
+            de fichiers / upload de pointe conçu pour fonctionner spécialement avec des styles Bootstrap CSS3 pour Bootstrap 3.x.
+            </p>
+        <p>Il nous a permis d'améliorer la fonctionnalité de l'upload de fichiers, en offrant un soutien pour
+            la prévisualisation des images, glisser-déposer des fichiers, visualisation de la
+            progression du téléchargement et l'ajout ou la suppression de fichiers.</p>
 
     <!-- /.col-sm-4 -->
     </div>

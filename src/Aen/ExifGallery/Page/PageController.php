@@ -19,7 +19,7 @@ class PageController extends DocumentController
     public function about()
     {
         $list = ImageJson::readList();
-        $this->title = "Page technique";
+        $this->title = "About";
         $this->OGMeta = '';
         $this->tweetCards = '<meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/index.php?t=page&a=about" />
