@@ -1,1 +1,1 @@
-ErrorDocument 404 /index.php?t=page&a=func404
+ErrorDocument 404 /ExifGallery/index.php?t=page&a=func404
