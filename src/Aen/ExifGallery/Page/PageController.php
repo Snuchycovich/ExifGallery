@@ -32,4 +32,10 @@ class PageController extends DocumentController
         $this->response->setPart('title', $this->title);
         $this->response->setPart('output', $this->output);
     }
+
+    public function func404()
+    {
+        $this->title = "Error 404";
+        $this->output = file_get_contents(__DIR__.'/templates/404.php');
+    }
 }
