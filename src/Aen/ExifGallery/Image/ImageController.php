@@ -32,7 +32,7 @@ class ImageController extends DocumentController
             foreach ($list as $image) {
                 $show = new ImageHtml($image);
                 $this->output .= $show->render('imageForHomeGallery.tpl.php');
-                $imgTweet .= '<meta name="twitter:'.json_decode($image, true)['name'].'" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($image, true)['url'].'">';
+                $imgTweet .= '<meta name="twitter:'.json_decode($image, true)['name'].'" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($image, true)['url'].'">';
             }
         } else {
             $this->output .= "No available images.";
@@ -43,14 +43,14 @@ class ImageController extends DocumentController
         </section>';
         $this->OGMeta ='<meta property="og:title" content="Exif Gallery" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery" />
-        <meta property="og:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery'.json_decode($list[0], true)['url'].'" />';
+        <meta property="og:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/index.php" />
+        <meta property="og:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
         $this->tweetCards = '<meta name="twitter:card" content="gallery" />
         <meta name="twitter:site" content="@Snuchycovich" />
         <meta name="twitter:creator" content="@Snuchycovich" />
         <meta name="twitter:title" content="Exif Gallery">
         <meta name="twitter:description" content="Our gallery of images">
-        <meta name="twitter:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/" />'
+        <meta name="twitter:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/" />'
         .$imgTweet;
         $this->response->setPart('OGMeta', $this->OGMeta);
         $this->response->setPart('tweetCards', $this->tweetCards);
@@ -79,20 +79,19 @@ class ImageController extends DocumentController
             $title = "Unknown";
         }
         $file = $image[0]['File']['FileName'];
-        //var_dump($image[0]['File']);
         $this->OGMeta ='<meta property="og:title" content="'.$title.'" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery" />
-        <meta property="og:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
-        <meta property="og:image:secure_url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
+        <meta property="og:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=view&name='.$name.'" />
+        <meta property="og:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
+        <meta property="og:image:secure_url" content="https://21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
         <meta property="og:image:type" content="'.$image[0]['File']['MIMEType'].'" />
         <meta property="og:image:width" content="'.$image[0]['File']['ImageWidth'].'" />
         <meta property="og:image:height" content="'.$image[0]['File']['ImageHeight'].'" />';
         $this->tweetCards = '<meta name="twitter:card" content="photo" />
         <meta name="twitter:site" content="@Snuchycovich" />
         <meta name="twitter:title" content="'.$title.'" />
-        <meta name="twitter:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
-        <meta name="twitter:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=view&name='.$name.'/" />';
+        <meta name="twitter:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/uploads/'.$file.'" />
+        <meta name="twitter:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=view&name='.$name.'" />';
         $this->response->setPart('OGMeta', $this->OGMeta);
         $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
@@ -151,13 +150,13 @@ class ImageController extends DocumentController
         $this->output = file_get_contents(__DIR__.'/templates/map.php');
         $this->OGMeta ='<meta property="og:title" content="Exif Gallery World Map" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=map" />
-        <meta property="og:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery'.json_decode($list[0], true)['url'].'" />';
+        <meta property="og:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=map" />
+        <meta property="og:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
         $this->tweetCards = '<meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/" />
+        <meta name="twitter:site" content="https://21007640.users.info.unicaen.fr/ExifGallery/" />
         <meta name="twitter:title" content="Exif Gallery World Map" />
         <meta name="twitter:description" content="Our set of images and location in the world map" />
-        <meta name="twitter:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
+        <meta name="twitter:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
         $this->response->setPart('OGMeta', $this->OGMeta);
         $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
