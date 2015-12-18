@@ -23,7 +23,7 @@
 
         });
         $("#filtres").select2({maximumSelectionLength: 2});
-            $('#bFlicker').click(function(){
+        $('#bFlicker').click(function(){
                 var keywords=$("#filtres>option:selected").map(function(){
                     return $(this).val();
                 }).get();
@@ -34,18 +34,12 @@
                     $("#"+keywords[0]).prop('selected', true);
                     $("#"+keywords[0]).select();
                     keywords=[keywords[0]];
-
                 }
                 $.ajax({
                     type: 'POST',
                     url: 'src/Aen/Library/Flickr/flickrSearch.php',
                     data: {"q" : keywords},
                     success: function(data) {
-                        console.log(data);
-                        /*$("#metadata").addClass("col-xs-6");
-                        $("#metadata").removeClass("col-xs-8");
-                        $("#flicker").removeClass("col-xs-2");
-                        $("#flicker").addClass("col-xs-6");*/
                         $("#flicker").html(data);
                     },
                     error:function(err){
@@ -54,55 +48,52 @@
                 });
             });
 
-
-        $(".clickedimage").click(function(img){
-            var src = $(img.target).closest('.clickedimage').children('img')[0].src.split("/");
-            var image = src[src.length-1];
-            $.ajax({
-                type: 'POST',
-                url: 'app/View/imageDetails.php',
-                data: {"url" : image},
-                success: function(data) {
-                    $("#details").html(data);
-                    $(".close").click(function(img){
-                        $("#details").removeClass("open");
-                    });
-                    /*$("#filtres").select2({maximumSelectionLength: 2});
-                    $('#bFlicker').click(function(){
-                        $("#details").append($.parseHTML('<nav class="nav-wrapper visible-xs nav-wrapper-mobile">'+
-                            '<div class="nav-wrapper-mobile-inner">'+
-                            '<div class="nav-wrapper-mobile-vertical-center">'+
-                            '</div></div></nav>'));
-                        var keywords=$("#filtres>option:selected").map(function(){
-                            return $(this).val();
-                        }).get();
-                        if(keywords.length==0) {
-                            keywords = $("#filtres>option").map(function () {
-                                return $(this).val();
-                            }).get();
-                            $("#"+keywords[0]).prop('selected', true);
-                            $("#"+keywords[0]).select();
-                            keywords=[keywords[0]];
-
-                        }
-                        $.ajax({
-                            type: 'POST',
-                            url: 'app/View/flickerSearch.php',
-                            data: {"q" : keywords},
-                            success: function(data) {
-                                $("#metadata").addClass("col-xs-7");
-                                $("#metadata").removeClass("col-xs-8");
-                                $("#flicker").removeClass("col-xs-2");
-                                $("#flicker").addClass("col-xs-5");
-                                $("#flicker").html(data);
-                            },
-                            error:function(err){
-                                alert("err");
-                            }
-                        });
-                    });*/
-                }
-            });
+        $( ".collapse-content" ).children().find("input[type=radio]").change(function() {
+            current = $(this).parent().closest('div[id]').get(0).id;
+            //$("#"+current+" .prop").removeClass('hidden');
+            //alert(current=='date')
+            if ($(this).val() == 'XMP') {
+                if(current=='date') {
+                    str = $('#' + current + ' [name="xmp-date"]').val().split(" ");
+                    date = str[0].split(":");
+                    $('#' + current + ' [name=prop-y]').val(date[0]);
+                    $('#' + current + ' [name=prop-m]').val(date[1]);
+                    $('#' + current + ' [name=prop-d]').val(date[2]);
+                }else
+                    $('#'+current+' [name=prop-'+current+']').val($('#'+current+' [name^="xmp-"]').val());
+            } else if ($(this).val() == 'EXIF') {
+                if(current=='date') {
+                    str = $('#' + current + ' [name="exif-date"]').val();
+                    date = str.split(" ")[0].split(":");
+                    $('#' + current + ' [name=prop-y]').val(date[0]);
+                    $('#' + current + ' [name=prop-m]').val(date[1]);
+                    $('#' + current + ' [name=prop-d]').val(date[2]);
+                }else
+                    $('#'+current+' [name=prop-'+current+']').val($('#'+current+' [name^="exif-"]').val());
+            } else if ($(this).val() == 'IPTC') {
+                if(current=='date') {
+                    str = $('#' + current + ' [name="iptc-date"]').val();
+                    date = str.split(" ")[0].split(":");
+                    $('#' + current + ' [name=prop-y]').val(date[0]);
+                    $('#' + current + ' [name=prop-m]').val(date[1]);
+                    $('#' + current + ' [name=prop-d]').val(date[2]);
+                }else
+                    $('#'+current+' [name=prop-'+current+']').val($('#'+current+' [name^="iptc-"]').val());
+            }
         });
+
+        /*$( ".collapse-content" ).children().find('input[type=text], textarea').keyup(function() {
+            current = $(this).parent().closest('div[id]').get(0).id;
+            $('#'+current+' [name^="iptc-"]').val($(this).val());
+            $('#'+current+' [name^="xmp-"]').val($(this).val());
+            $('#'+current+' [name^="exif-"]').val($(this).val());
+        });
+
+        $( ".collapse-content" ).children().find('input[type=text], textarea').change(function() {
+            current = $(this).parent().closest('div[id]').get(0).id;
+            $('#'+current+' [name^="iptc-"]').val($(this).val());
+            $('#'+current+' [name^="xmp-"]').val($(this).val());
+            $('#'+current+' [name^="exif-"]').val($(this).val());
+        });*/
 
     });

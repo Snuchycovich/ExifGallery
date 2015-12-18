@@ -186,33 +186,33 @@ class ImageController extends DocumentController
     public function save()
     {
         $name = $this->request->getGetParam('name');
-        $metadatas = ImageJson::readImage($name);
-        $data = array(array("SourceFile" => "uploads/".basename($metadatas[0]["SourceFile"]),
+        $metadatas = ImageJson::readImage($name)[0];
+        $data = array(array("SourceFile" => "uploads/".basename($metadatas["SourceFile"]),
             //XMP
-            "XMP:Creator" => $_POST["xmp-creator"],
-            "XMP:Title" => $_POST['xmp-title'],
-            "XMP:Description" => $_POST['xmp-desc'],
-            "XMP:Rights" => $_POST["xmp-rights"],
-            "XMP:CreateDate" => $_POST["xmp-date"],
-            "XMP:Subject" => explode(", ", $_POST["xmp-keywords"]),
-            "XMP:State" => $_POST["xmp-state"],
-            "XMP:City" => $_POST["xmp-city"],
-            "XMP:Country" => $_POST["xmp-country"],
+            "XMP:Creator" => (isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:$metadatas["XMP"]["Creator"],
+            "XMP:Title" => (isset($_POST["prop-title"]) && !empty($_POST["prop-title"]))?$_POST["prop-title"]:$metadatas["XMP"]["Title"],
+            "XMP:Description" => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:$metadatas["XMP"]["Description"],
+            "XMP:Rights" => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:$metadatas["XMP"]["Rights"],
+            "XMP:CreateDate" => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:$metadatas["XMP"]["CreateDate"],
+            "XMP:Subject" => (isset($_POST["prop-Keywords"]) && !empty($_POST["prop-Keywords"]))? explode(", ", $_POST["prop-Keywords"]):$metadatas["XMP"]["Subject"],
+            "XMP:State" => (isset($_POST["prop-state"]) && !empty($_POST["prop-state"]))?$_POST["prop-state"]:$metadatas["XMP"]["State"],
+            "XMP:City" => (isset($_POST["prop-City"]) && !empty($_POST["prop-City"]))?$_POST["prop-City"]: $metadatas["XMP"]["City"],
+            "XMP:Country" => (isset($_POST["prop-Country"]) && !empty($_POST["prop-Country"]))? $_POST["prop-Country"]: $metadatas["XMP"]["Country"],
             //IPTC
-            "IPTC:By-line" => $_POST["iptc-creator"],
-            "IPTC:Headline" => $_POST['iptc-title'],
-            "IPTC:Caption-Abstract" => $_POST['iptc-desc'],
-            "IPTC:CopyrightNotice" => $_POST["iptc-rights"],
-            "IPTC:DateCreated" => $_POST["iptc-date"],
-            "IPTC:Keywords" => explode(", ", $_POST["iptc-keywords"]),
-            "IPTC:Province-State" => $_POST["iptc-state"],
-            "IPTC:City" => $_POST["iptc-city"],
-            "IPTC:Country-PrimaryLocationName" => $_POST["iptc-country"],
+            "IPTC:By-line" => (isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:$metadatas["IPTC"]["By-line"],
+            "IPTC:Headline" => (isset($_POST["prop-title"]) && !empty($_POST["prop-title"]))?$_POST["prop-title"]:$metadatas["IPTC"]["Headline"],
+            "IPTC:Caption-Abstract" => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:$metadatas["IPTC"]["Caption-Abstract"],
+            "IPTC:CopyrightNotice" => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:$metadatas["IPTC"]["CopyrightNotice"],
+            "IPTC:DateCreated" => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:$metadatas["IPTC"]["DateCreated"],
+            "IPTC:Keywords" => (isset($_POST["prop-Keywords"]) && !empty($_POST["prop-Keywords"]))? explode(", ", $_POST["prop-Keywords"]): $metadatas["IPTC"]["Keywords"],
+            "IPTC:Province-State" => (isset($_POST["prop-state"]) && !empty($_POST["prop-state"]))?$_POST["prop-state"]:$metadatas["IPTC"]["Province-State"],
+            "IPTC:City" => (isset($_POST["prop-City"]) && !empty($_POST["prop-City"]))?$_POST["prop-City"]: $metadatas["IPTC"]["City"],
+            "IPTC:Country-PrimaryLocationName" => (isset($_POST["prop-Country"]) && !empty($_POST["prop-Country"]))? $_POST["prop-Country"]: $metadatas["IPTC"]["Country-PrimaryLocationName"],
             //EXIF
-            "EXIF:Artist" => $_POST["exif-creator"],
-            "EXIF:ImageDescription " => $_POST['exif-desc'],
-            "EXIF:Copyright " => $_POST["exif-rights"],
-            "EXIF:CreateDate " => $_POST["exif-date"]
+            "EXIF:Artist" => $_POST["prop-creator"],(isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:$metadatas["EXIF"]["Artist"],
+            "EXIF:ImageDescription " => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:$metadatas["EXIF"]["ImageDescription"],
+            "EXIF:Copyright " => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:$metadatas["EXIF"]["Copyright"],
+            "EXIF:CreateDate " => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:$metadatas["EXIF"]["CreateDate"]
         ));
         file_put_contents('./data/tmp.json', json_encode($data));
         $exiftool = new ExifTool("./uploads/");
@@ -227,8 +227,8 @@ class ImageController extends DocumentController
             $image=json_decode($image,true);
             if ($image["filename"] == $name) {
                 $images[$key] = json_encode(array(
-                    "name" => $_POST["xmp-title"],
-                    'creator' => $_POST["xmp-creator"],
+                    "name" => (isset($_POST["prop-title"]) && !empty($_POST["prop-title"]))?$_POST["prop-title"]:$metadatas["XMP"]["Title"],
+                    'creator' => (isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:$metadatas["XMP"]["Creator"],
                     "filename" => $image["filename"],
                     "url" => $image["url"]
                 ));
