@@ -50,18 +50,40 @@ if (isset($this->image[0]['IPTC']['Source'])) {
 }
 
 // Flickr
-$keywords = '';
+$keywords = array();
 if (isset($this->image[0]['IPTC']['Keywords'])) {
     $keywords = $this->image[0]['IPTC']['Keywords'];
 } else if (isset($this->image[0]['XMP']['Subject'])) {
     $keywords = $this->image[0]['XMP']['Subject'];
-} else {
-    $keywords = array();
 }
+
 $options = "";
 foreach ($keywords as $keyword) {
     $options .= '<option id="' . $keyword . '" value="' . $keyword . '">' . $keyword . '</option>';
 }
+if(isset($this->image[0]['XMP']['City'])){
+    $city = $this->image[0]['XMP']['City'];
+}else if (isset($this->image[0]['IPTC']['City'])){
+    $city = $this->image[0]['IPTC']['City'];
+}
+if(isset($city))
+    $options .= '<option id="' . $this->image[0]['XMP']['City'] . '" value="' . $this->image[0]['XMP']['City'] . '">' . $this->image[0]['XMP']['City'] . '</option>';
+
+if(isset($this->image[0]['XMP']['Country'])){
+    $Country = $this->image[0]['XMP']['Country'];
+}else if (isset($this->image[0]['IPTC']['Country-PrimaryLocationName'])){
+    $Country = $this->image[0]['IPTC']['Country-PrimaryLocationName'];
+}
+if(isset($Country))
+$options .= '<option id="' . $Country . '" value="' . $Country . '">' . $Country . '</option>';
+
+if(isset($this->image[0]['XMP']['Title'])){
+    $Title = $this->image[0]['XMP']['Title'];
+}else if (isset($this->image[0]['IPTC']['Headline'])){
+    $Title = $this->image[0]['IPTC']['Headline'];
+}
+if(isset($Title))
+$options .= '<option id="' . $Title . '" value="' . $Title . '">' . $Title . '</option>';
 //url
 $name = basename($this->image[0]['File']['FileName'], '.' . pathinfo($this->image[0]['File']['FileName'], PATHINFO_EXTENSION));
 

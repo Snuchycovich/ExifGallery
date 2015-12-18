@@ -27,7 +27,8 @@ class ImageController extends DocumentController
         <li class="grid-sizer"></li>
         <li class="gutter-sizer"></li>';
         $imgTweet = "";
-        if (!empty($list)) {
+        if (isset($list) && !empty($list)) {
+            shuffle($list);
             foreach ($list as $image) {
                 $show = new ImageHtml($image);
                 $this->output .= $show->render('imageForHomeGallery.tpl.php');
