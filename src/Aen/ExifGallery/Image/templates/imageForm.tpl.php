@@ -220,6 +220,7 @@ $xmp = $this->image['XMP'];
                 </a>
 
                 <div id="Keywords" class="collapse collapse-content">
+                    <span>Please write words separated by commas ','.</span>
                     <div class="form-group">
                         <label>
                             <input type="radio" name="keyw" value="IPTC"/>
