@@ -11,9 +11,9 @@ if (isset($this->image[0]["XMP"]["CreatorWorkURL"])) {
 
 if (isset($this->image[0]["XMP"]["Creator"])) {
     $creator = $this->image[0]["XMP"]["Creator"];
-}else if (isset($this->image[0]["IPTC"]["By-line"])) {
+} else if (isset($this->image[0]["IPTC"]["By-line"])) {
         $creator = $this->image[0]["IPTC"]["By-line"];
-}else if (isset($this->image[0]["EXIF"]["Artist"])) {
+} else if (isset($this->image[0]["EXIF"]["Artist"])) {
     $creator = $this->image[0]["EXIF"]["Artist"];
 }
 $creator = "<span itemprop=\"author\">$creator</span>";
@@ -24,9 +24,9 @@ if (empty($creatorUrl) || $creatorUrl == "") {
 }
 
 if (isset($this->image[0]["IPTC"]["Caption-Abstract"])) {
-    $description = '<blockquote><font size="2">' . $this->image[0]["IPTC"]["Caption-Abstract"] . '</font></blockquote>';
+    $description = '<blockquote><span>' . $this->image[0]["IPTC"]["Caption-Abstract"] . '</span></blockquote>';
 } elseif (isset($this->image[0]["XMP"]["Description"])) {
-    $description = '<blockquote><font size="2">' . $this->image[0]["XMP"]["Description"] . '</font></blockquote>';
+    $description = '<blockquote><span>' . $this->image[0]["XMP"]["Description"] . '</span></blockquote>';
 }
 
 (isset($this->image[0]["IPTC"]["DateCreated"])) ? $date = $this->image[0]["IPTC"]["DateCreated"] :
@@ -59,31 +59,33 @@ if (isset($this->image[0]['IPTC']['Keywords'])) {
 
 $options = "";
 foreach ($keywords as $keyword) {
-    $options .= '<option id="' . $keyword . '" value="' . $keyword . '">' . $keyword . '</option>';
+    $options .= '<option value="' . $keyword . '">' . $keyword . '</option>';
 }
-if(isset($this->image[0]['XMP']['City'])){
+if (isset($this->image[0]['XMP']['City'])) {
     $city = $this->image[0]['XMP']['City'];
-}else if (isset($this->image[0]['IPTC']['City'])){
+} else if (isset($this->image[0]['IPTC']['City'])) {
     $city = $this->image[0]['IPTC']['City'];
 }
-if(isset($city))
-    $options .= '<option id="' . $this->image[0]['XMP']['City'] . '" value="' . $this->image[0]['XMP']['City'] . '">' . $this->image[0]['XMP']['City'] . '</option>';
-
-if(isset($this->image[0]['XMP']['Country'])){
+if (isset($city)) {
+    $options .= '<option value="' . $this->image[0]['XMP']['City'] . '">' . $this->image[0]['XMP']['City'] . '</option>';
+}
+if (isset($this->image[0]['XMP']['Country'])) {
     $Country = $this->image[0]['XMP']['Country'];
-}else if (isset($this->image[0]['IPTC']['Country-PrimaryLocationName'])){
+} else if (isset($this->image[0]['IPTC']['Country-PrimaryLocationName'])) {
     $Country = $this->image[0]['IPTC']['Country-PrimaryLocationName'];
 }
-if(isset($Country))
-$options .= '<option id="' . $Country . '" value="' . $Country . '">' . $Country . '</option>';
-
-if(isset($this->image[0]['XMP']['Title'])){
+if (isset($Country)) {
+    $options .= '<option value="' . $Country . '">' . $Country . '</option>';
+}
+if (isset($this->image[0]['XMP']['Title'])) {
     $Title = $this->image[0]['XMP']['Title'];
-}else if (isset($this->image[0]['IPTC']['Headline'])){
+} else if (isset($this->image[0]['IPTC']['Headline'])) {
     $Title = $this->image[0]['IPTC']['Headline'];
 }
-if(isset($Title))
-$options .= '<option id="' . $Title . '" value="' . $Title . '">' . $Title . '</option>';
+if (isset($Title)) {
+    $options .= '<option value="' . $Title . '">' . $Title . '</option>';
+}
+
 //url
 $name = basename($this->image[0]['File']['FileName'], '.' . pathinfo($this->image[0]['File']['FileName'], PATHINFO_EXTENSION));
 
@@ -98,7 +100,7 @@ if (isset($this->image[0])) {
             case 'IPTC':
                 $metadata .= '<li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#' . $key . '">
-                <b><font size="4">' . $key . '</font></b></a>
+                <b><span>' . $key . '</span></b></a>
                 <ul id="' . $key . '" class="collapse collapse-content">';
 
                 foreach ($values as $k => $value) {
@@ -121,17 +123,19 @@ if (isset($this->image[0])) {
 ?>
 
 <div class="container">
-    <div class="row" itemscope itemtype="//schema.org/ImageObject">
+    <div class="row" itemscope itemtype="http://schema.org/ImageObject">
         <div class="col-sm-5">
             <div class="row">
                 <p class="the-couple-statement text-center">
-                    <?= $creator; ?><br><div class="date-image text-center"><?= $date ?></div>
+                    <?= $creator; ?><br>
+                    <?= $date ?>
                 </p>
-                <div class="row-masonry simple-gallery pop-gallery">
-
-                <li class="grid-sizer"></li>
-                <!-- required for fluid masonry layout -->
-                <li class="gutter-sizer"></li>
+            <div class="row-masonry simple-gallery pop-gallery">
+                <ul>
+                    <li class="grid-sizer"></li>
+                    <!-- required for fluid masonry layout -->
+                    <li class="gutter-sizer"></li>
+                </ul>
                 <!-- required for fluid masonry layout -->
                 <div class="img-treatment">
                     <a class="pop-gallery-img popup-indicator"
@@ -139,11 +143,6 @@ if (isset($this->image[0])) {
                         <img itemprop="contentUrl" src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"
                              alt="<?= $this->image[0]['File']['FileName'] ?>"/>
                     </a>
-
-
-                    <!-- <a href="<?= $hrefImage; ?>" target="_blank">
-                    <img src="./uploads/<?= $this->image[0]['File']['FileName'] ?>"/>
-                </a>-->
                 </div>
             </div>
                 <div class="text-center">
@@ -181,7 +180,7 @@ if (isset($this->image[0])) {
                         </select>
                     </div>
                     <div class="col-xs-1">
-                        <a id="bFlicker" type="submit" class="btn btn-default info"><span class="ti ti-flickr"></span>
+                        <a id="bFlicker" class="btn btn-default info"><span class="ti ti-flickr"></span>
                             <b>Search on Flickr</b></a>
                     </div>
                     <div class="col-md-1"></div>

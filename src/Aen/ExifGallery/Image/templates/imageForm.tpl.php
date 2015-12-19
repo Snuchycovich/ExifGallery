@@ -9,7 +9,7 @@ $xmp = $this->image['XMP'];
         <ul class="nav nav-stacked" id="accordion1">
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#creator">
-                    <b><font size="4">Creator</font></b>
+                    <b><span >Creator</span></b>
                 </a>
 
                 <div id="creator" class="collapse collapse-content">
@@ -49,7 +49,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#title">
-                    <b><font size="4">Headline</font></b>
+                    <b><span >Headline</span></b>
                 </a>
 
                 <div id="title" class="collapse collapse-content">
@@ -79,7 +79,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#desc">
-                    <b><font size="4">Description</font></b>
+                    <b><span >Description</span></b>
                 </a>
 
                 <div id="desc" class="collapse collapse-content">
@@ -120,7 +120,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#rights">
-                    <b><font size="4">Copyright Notice</font></b>
+                    <b><span >Copyright Notice</span></b>
                 </a>
 
                 <div id="rights" class="collapse collapse-content">
@@ -162,7 +162,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#date">
-                    <b><font size="4">Date Creation</font></b>
+                    <b><span >Date Creation</span></b>
                 </a>
 
                 <div id="date" class="collapse collapse-content">
@@ -216,7 +216,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#Keywords">
-                    <b><font size="4">Keywords</font></b>
+                    <b><span >Keywords</span></b>
                 </a>
 
                 <div id="Keywords" class="collapse collapse-content">
@@ -250,7 +250,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#state">
-                    <b><font size="4">Province / State</font></b>
+                    <b><span>Province / State</span></b>
                 </a>
 
                 <div id="state" class="collapse collapse-content">
@@ -282,7 +282,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#Country">
-                    <b><font size="4">Country</font></b>
+                    <b><span>Country</span></b>
                 </a>
 
                 <div id="Country" class="collapse collapse-content">
@@ -316,7 +316,7 @@ $xmp = $this->image['XMP'];
             </li>
             <li class="panel">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#City">
-                    <b><font size="4">City</font></b>
+                    <b><span>City</span></b>
                 </a>
 
                 <div id="City" class="collapse collapse-content">

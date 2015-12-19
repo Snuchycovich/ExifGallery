@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" prefix="og: http://ogp.me/ns#">
 <head>
 	<title><?= $title ?> | ExifGallery</title>
 	<meta charset="utf-8">
@@ -64,10 +64,12 @@
 		
 	<div class="page-container clearfix" id="content" role="main">
 		<div class="vignette"><a href="index.php">EG | EXiF Gallery</a></div>
-		<article>
-			<h2 class="theme-title"><?= $title ?></h2>
-			<?= $output ?>
-		</article>
+			<section class="feature-section">
+				<div class="container">
+					<h2 class="theme-title"><?= $title ?></h2>
+					<?= $output ?>
+				</div>
+			</section>
 	</div>
 		<footer>
 

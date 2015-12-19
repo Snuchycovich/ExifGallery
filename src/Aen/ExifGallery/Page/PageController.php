@@ -22,7 +22,7 @@ class PageController extends DocumentController
         $this->title = "About";
         $this->OGMeta = '';
         $this->tweetCards = '<meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/index.php?t=page&a=about" />
+        <meta name="twitter:site" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/index.php"/>
         <meta name="twitter:title" content="Exif Gallery World Map" />
         <meta name="twitter:description" content="Technical informations about the project and collaborators" />
         <meta name="twitter:image" content="https://dev-21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';

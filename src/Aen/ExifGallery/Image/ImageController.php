@@ -21,9 +21,7 @@ class ImageController extends DocumentController
     {
         $this->title = "Exiftool Gallery";
         $list = ImageJson::readList();
-        $this->output = '<section class="feature-section">
-        <div class="container">
-        <ul class="row row-masonry simple-gallery photo-grid">
+        $this->output = '<ul class="row row-masonry simple-gallery photo-grid">
         <li class="grid-sizer"></li>
         <li class="gutter-sizer"></li>';
         $imgTweet = "";
@@ -32,26 +30,25 @@ class ImageController extends DocumentController
             foreach ($list as $image) {
                 $show = new ImageHtml($image);
                 $this->output .= $show->render('imageForHomeGallery.tpl.php');
-                $imgTweet .= '<meta name="twitter:'.json_decode($image, true)['name'].'" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($image, true)['url'].'">';
+                //$imgTweet .= '<meta name="twitter:'.json_decode($image, true)['name'].'" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($image, true)['url'].'">'."\n";
             }
         } else {
             $this->output .= "No available images.";
         }
-        $this->output .= '</ul>
-                </div>
-            </div>
-        </section>';
+        $this->output .= '</ul>';
         $this->OGMeta ='<meta property="og:title" content="Exif Gallery" />
         <meta property="og:type" content="website" />
+        <meta property="og:description"  content="Our gallery of images." />
         <meta property="og:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/index.php" />
-        <meta property="og:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
+        <meta property="og:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />
+        <meta property="og:image:secure_url" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
         $this->tweetCards = '<meta name="twitter:card" content="gallery" />
         <meta name="twitter:site" content="@Snuchycovich" />
         <meta name="twitter:creator" content="@Snuchycovich" />
         <meta name="twitter:title" content="Exif Gallery">
         <meta name="twitter:description" content="Our gallery of images">
         <meta name="twitter:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/" />'
-        .$imgTweet;
+        /*.$imgTweet*/;
         $this->response->setPart('OGMeta', $this->OGMeta);
         $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
@@ -119,10 +116,7 @@ class ImageController extends DocumentController
         $image = $this->request->getGetParam('name');
         $fileName = basename($image, pathinfo($image, PATHINFO_EXTENSION))."xmp";
         ImageDownload::download($fileName, DATA_PATH.'xmp/', 'text/xmp');
-        var_dump(file_exists(DATA_PATH.'xmp/'.$fileName));$this->output .= '</ul>
-                </div>
-            </div>
-        </section>';
+        var_dump(file_exists(DATA_PATH.'xmp/'.$fileName));
         $this->title = $fileName;
         $this->response->setPart('OGMeta', $this->OGMeta);
         $this->response->setPart('tweetCards', $this->tweetCards);
@@ -147,11 +141,13 @@ class ImageController extends DocumentController
     {
         $this->title = "Images Map";
         $list = ImageJson::readList();
-        $this->output = file_get_contents(__DIR__.'/templates/map.php');
+        $this->output = '<div id="map"></div>';
         $this->OGMeta ='<meta property="og:title" content="Exif Gallery World Map" />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:description"  content="Our set of images and location in the world map." />
         <meta property="og:url" content="https://21007640.users.info.unicaen.fr/ExifGallery/index.php?t=image&a=map" />
-        <meta property="og:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/'.json_decode($list[0], true)['url'].'" />';
+        <meta property="og:image" content="https://21007640.users.info.unicaen.fr/ExifGallery/ui/images/New_OpenStreetMap_Map.png" />
+        <meta property="og:image:secure_url" content="https://21007640.users.info.unicaen.fr/ExifGallery/ui/images/New_OpenStreetMap_Map.png" />';
         $this->tweetCards = '<meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="https://21007640.users.info.unicaen.fr/ExifGallery/" />
         <meta name="twitter:title" content="Exif Gallery World Map" />
@@ -173,10 +169,7 @@ class ImageController extends DocumentController
         $image = ImageJson::readImageModifMeta($name);
         //var_dump($image);
         $form = new ImageForm($image);
-        $this->output = '<section class="feature-section make-page-height">
-        <div class="container vertical-align-middle">';
-        $this->output .= $form->renderForm('imageForm.tpl.php', $action);
-        $this->output .= '</div></section>';
+        $this->output = $form->renderForm('imageForm.tpl.php', $action);
         $this->response->setPart('OGMeta', $this->OGMeta);
         $this->response->setPart('tweetCards', $this->tweetCards);
         $this->response->setPart('title', $this->title);
@@ -185,34 +178,36 @@ class ImageController extends DocumentController
 
     public function save()
     {
+        //var_dump($_POST);
         $name = $this->request->getGetParam('name');
         $metadatas = ImageJson::readImage($name)[0];
-        $data = array(array("SourceFile" => "uploads/".basename($metadatas["SourceFile"]),
+        $data = array(array("SourceFile" => "./uploads/".basename($metadatas["SourceFile"]),
             //XMP
-            "XMP:Creator" => (isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:$metadatas["XMP"]["Creator"],
-            "XMP:Title" => (isset($_POST["prop-title"]) && !empty($_POST["prop-title"]))?$_POST["prop-title"]:$metadatas["XMP"]["Title"],
-            "XMP:Description" => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:$metadatas["XMP"]["Description"],
-            "XMP:Rights" => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:$metadatas["XMP"]["Rights"],
-            "XMP:CreateDate" => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:$metadatas["XMP"]["CreateDate"],
-            "XMP:Subject" => (isset($_POST["prop-Keywords"]) && !empty($_POST["prop-Keywords"]))? explode(", ", $_POST["prop-Keywords"]):$metadatas["XMP"]["Subject"],
-            "XMP:State" => (isset($_POST["prop-state"]) && !empty($_POST["prop-state"]))?$_POST["prop-state"]:$metadatas["XMP"]["State"],
-            "XMP:City" => (isset($_POST["prop-City"]) && !empty($_POST["prop-City"]))?$_POST["prop-City"]: $metadatas["XMP"]["City"],
-            "XMP:Country" => (isset($_POST["prop-Country"]) && !empty($_POST["prop-Country"]))? $_POST["prop-Country"]: $metadatas["XMP"]["Country"],
+            "XMP:Creator" => (isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:((isset($metadatas["XMP"]["Creator"]))? $metadatas["XMP"]["Creator"]:""),
+            "XMP:Title" => (isset($_POST["prop-title"]) && !empty($_POST["prop-title"]))?$_POST["prop-title"]: (isset($metadatas["XMP"]["Title"])? $metadatas["XMP"]["Title"]:""),
+            "XMP:Description" => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:(isset($metadatas["XMP"]["Description"])? $metadatas["XMP"]["Description"] : ""),
+            "XMP:Rights" => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:(isset($metadatas["XMP"]["Rights"])? $metadatas["XMP"]["Rights"] : ""),
+            "XMP:CreateDate" => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:(isset($metadatas["XMP"]["CreateDate"])? $metadatas["XMP"]["CreateDate"] :""),
+            "XMP:Subject" => (isset($_POST["prop-Keywords"]) && !empty($_POST["prop-Keywords"]))? explode(", ", $_POST["prop-Keywords"]):(isset($metadatas["XMP"]["Subject"])?$metadatas["XMP"]["Subject"]:array()),
+            "XMP:State" => (isset($_POST["prop-state"]) && !empty($_POST["prop-state"]))?$_POST["prop-state"]:(isset($metadatas["XMP"]["State"])? $metadatas["XMP"]["State"] :""),
+            "XMP:City" => (isset($_POST["prop-City"]) && !empty($_POST["prop-City"]))?$_POST["prop-City"]: (isset($metadatas["XMP"]["City"])?$metadatas["XMP"]["City"]:""),
+            "XMP:Country" => (isset($_POST["prop-Country"]) && !empty($_POST["prop-Country"]))? $_POST["prop-Country"]: (isset($metadatas["XMP"]["Country"])?$metadatas["XMP"]["Country"]:""),
+            
             //IPTC
-            "IPTC:By-line" => (isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:$metadatas["IPTC"]["By-line"],
-            "IPTC:Headline" => (isset($_POST["prop-title"]) && !empty($_POST["prop-title"]))?$_POST["prop-title"]:$metadatas["IPTC"]["Headline"],
-            "IPTC:Caption-Abstract" => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:$metadatas["IPTC"]["Caption-Abstract"],
-            "IPTC:CopyrightNotice" => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:$metadatas["IPTC"]["CopyrightNotice"],
-            "IPTC:DateCreated" => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:$metadatas["IPTC"]["DateCreated"],
-            "IPTC:Keywords" => (isset($_POST["prop-Keywords"]) && !empty($_POST["prop-Keywords"]))? explode(", ", $_POST["prop-Keywords"]): $metadatas["IPTC"]["Keywords"],
-            "IPTC:Province-State" => (isset($_POST["prop-state"]) && !empty($_POST["prop-state"]))?$_POST["prop-state"]:$metadatas["IPTC"]["Province-State"],
-            "IPTC:City" => (isset($_POST["prop-City"]) && !empty($_POST["prop-City"]))?$_POST["prop-City"]: $metadatas["IPTC"]["City"],
-            "IPTC:Country-PrimaryLocationName" => (isset($_POST["prop-Country"]) && !empty($_POST["prop-Country"]))? $_POST["prop-Country"]: $metadatas["IPTC"]["Country-PrimaryLocationName"],
+            "IPTC:By-line" => (isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:(isset($metadatas["IPTC"]["By-line"])?$metadatas["IPTC"]["By-line"]:""),
+            "IPTC:Headline" => (isset($_POST["prop-title"]) && !empty($_POST["prop-title"]))?$_POST["prop-title"]:(isset($metadatas["IPTC"]["Headline"])?$metadatas["IPTC"]["Headline"]:""),
+            "IPTC:Caption-Abstract" => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:(isset($metadatas["IPTC"]["Caption-Abstract"])?$metadatas["IPTC"]["Caption-Abstract"]:""),
+            "IPTC:CopyrightNotice" => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:(isset($metadatas["IPTC"]["CopyrightNotice"])?$metadatas["IPTC"]["CopyrightNotice"]:""),
+            "IPTC:DateCreated" => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:(isset($metadatas["IPTC"]["DateCreated"])?$metadatas["IPTC"]["DateCreated"]:""),
+            "IPTC:Keywords" => (isset($_POST["prop-Keywords"]) && !empty($_POST["prop-Keywords"]))? explode(", ", $_POST["prop-Keywords"]): (isset($metadatas["IPTC"]["Keywords"])?$metadatas["IPTC"]["Keywords"]:array()),
+            "IPTC:Province-State" => (isset($_POST["prop-state"]) && !empty($_POST["prop-state"]))?$_POST["prop-state"]:(isset($metadatas["IPTC"]["Province-State"])?$metadatas["IPTC"]["Province-State"]:""),
+            "IPTC:City" => (isset($_POST["prop-City"]) && !empty($_POST["prop-City"]))?$_POST["prop-City"]: (isset($metadatas["IPTC"]["City"])? $metadatas["IPTC"]["City"]:""),
+            "IPTC:Country-PrimaryLocationName" => (isset($_POST["prop-Country"]) && !empty($_POST["prop-Country"]))? $_POST["prop-Country"]: (isset($metadatas["IPTC"]["Country-PrimaryLocationName"])?$metadatas["IPTC"]["Country-PrimaryLocationName"]:""),
             //EXIF
-            "EXIF:Artist" => $_POST["prop-creator"],(isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:$metadatas["EXIF"]["Artist"],
-            "EXIF:ImageDescription " => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:$metadatas["EXIF"]["ImageDescription"],
-            "EXIF:Copyright " => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:$metadatas["EXIF"]["Copyright"],
-            "EXIF:CreateDate " => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:$metadatas["EXIF"]["CreateDate"]
+            "EXIF:Artist" => $_POST["prop-creator"],(isset($_POST["prop-creator"]) && !empty($_POST["prop-creator"]))?$_POST["prop-creator"]:(isset($metadatas["EXIF"]["Artist"])?$metadatas["EXIF"]["Artist"]:""),
+            "EXIF:ImageDescription " => (isset($_POST["prop-desc"]) && !empty($_POST["prop-desc"]))?$_POST["prop-desc"]:(isset($metadatas["EXIF"]["ImageDescription"])?$metadatas["EXIF"]["ImageDescription"]:""),
+            "EXIF:Copyright " => (isset($_POST["prop-rights"]) && !empty($_POST["prop-rights"]))?$_POST["prop-rights"]:(isset($metadatas["EXIF"]["Copyright"])?$metadatas["EXIF"]["Copyright"]:''),
+            "EXIF:CreateDate " => (isset($_POST["prop-y"]) && isset($_POST["prop-m"]) && isset($_POST["prop-d"]) && !empty($_POST["prop-y"]))? $_POST["prop-y"].":".$_POST["prop-m"].":".$_POST["prop-d"]:(isset($metadatas["EXIF"]["CreateDate"])?$metadatas["EXIF"]["CreateDate"]:"")
         ));
         file_put_contents('./data/tmp.json', json_encode($data));
         $exiftool = new ExifTool("./uploads/");
